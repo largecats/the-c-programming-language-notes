@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "helper_functions.h"
+/* test */
 
 void print_string(char s[]) {
     printf("%s\n", s);
