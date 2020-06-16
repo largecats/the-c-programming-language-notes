@@ -8,8 +8,8 @@ void print_string(char s[]);
 void print_array(int arr[]);
 void print_float_array(double arr[]);
 void swap(char s[], int i, int j);
-int getch(void);
-void ungetch(int c);
+// int getch(void);
+// void ungetch(int c);
 
 /* memory allocator */
 #define ALLOCSIZE 10000
