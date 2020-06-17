@@ -30,13 +30,13 @@ int main(int argc, char *argv[]) {
 /*
 $ ./result.out -10 +8
 hello   Neo follow  the    white        rabbit
-hello   Neo\sfollow\s\sthe\s\s\s\swhite\s\s\s\s\s\s\s\srabbit
+hello\tNeo\sfollow\s\sthe\s\s\s\swhite\s\s\s\s\s\s\s\srabbit
 hello\tNeo\sfollow\s\sthe\t\swhite\trabbit\n
 
 $ ./result.out -10 +8
 hello   Neo follow  the    white        rabbit
 hello\s\s\sNeo\sfollow\s\sthe\s\s\s\swhite\s\s\s\s\s\s\s\srabbit
-hello   Neo\sfollow\s\sthe\t\s\s\swhite\trabbit\n
+hello\s\s\sNeo\sfollow\s\sthe\t\s\s\swhite\trabbit\n
 */
 
 void parse_arg(int argc, char *argv[], int *mp, int *np) {
@@ -71,7 +71,7 @@ void detab(int m, int n, char line[]) {
             int spaceCount = (tabStop - (posCount % tabStop));
             posCount = posCount + spaceCount;
             if (posCount < m) {
-                putchar(c);
+                print_char_with_visible_blanks(c);
             }
             else {
                 for (;spaceCount>0; spaceCount--) {
@@ -105,7 +105,7 @@ void entab(int m, int n, char line[]) {
     for (posCount=1; (c=line[j++]) != '\0'; posCount++) {
         if (c == ' ') {
             if (posCount < m) {
-                putchar(c);
+                print_char_with_visible_blanks(c);
             }
             else {
                 if ((posCount % tabStop) == 0) { // use tab whenever possible
