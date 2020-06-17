@@ -48,6 +48,11 @@ $ ./result.out 2 4 6 8 10
 white   rabbit
 white\s\s\srabbit
 white\t\trabbit\n
+
+$ ./result.out 3 6 9 12 
+hello   Neo follow the    white      rabbit
+hello\sNeo\sfollow\sthe\s\s\s\swhite\s\s\s\s\s\srabbit
+hello\tNeo\sfollow\sthe\t\twhite\t\t\s\srabbit\n
 */
 
 /* detab: replace tabs with blanks */
@@ -63,7 +68,7 @@ void detab(int argc, char *argv[], char line[]) {
 
     while ((c=line[j++]) != '\0') {
         if (c == '\t') {
-            if (++i >= argc) {
+            if (++i >= argc) { /* increment to the next tabStop after encountering a tab */
                 tabStop = TAB_STOP;
             }
             else {
@@ -109,7 +114,7 @@ void entab(int argc, char *argv[], char line[]) {
             if((posCount % tabStop) == 0) { // use tab whenever possible
                 tabCount++;
                 spaceCount = 0;
-                tabStop = atoi(argv[i++]) - tabStop; /* increment to the next tabCount */
+                tabStop = atoi(argv[i++]) - tabStop; /* increment to the next tabStop after using a tab */
             }
             else { // use space only when cannot use tab
                 spaceCount++;
