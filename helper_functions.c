@@ -106,3 +106,18 @@ int getline_pointer_version(char *s, int lim) {
     *s = '\0';
     return s - original_s;
 }
+
+void print_char_with_visible_blanks(char c) {
+    if (c == '\t') {
+        printf("\\t");
+    }
+    else if (c == ' ') {
+        printf("\\s");
+    }
+    else if (c == '\n') {
+        printf("\\n");
+    }
+    else {
+        putchar(c);
+    }
+}

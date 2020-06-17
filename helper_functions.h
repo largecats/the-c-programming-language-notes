@@ -23,3 +23,5 @@ void afree(char *p);
 // int getline(char [], int);
 int getline_pointer_version(char *, int);
 void swap_pointer(char *s[], int i, int j);
+
+void print_char_with_visible_blanks(char c);

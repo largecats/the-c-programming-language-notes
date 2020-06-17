@@ -34,7 +34,8 @@ main() {
             if (c == '\n') {
                 posCount = 0;
             }
-            putchar(c);
+            // putchar(c);
+            print_char_with_visible_blanks(c);
         }
     }
 }
