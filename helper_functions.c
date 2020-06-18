@@ -2,10 +2,6 @@
 #include <string.h>
 #include "helper_functions.h"
 
-void print_string(char s[]) {
-    printf("%s\n", s);
-}
-
 void print_array(int arr[]) {
     int i;
 
