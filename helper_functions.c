@@ -24,10 +24,16 @@ void print_float_array(double arr[]) {
     printf("]\n");
 }
 
-void swap(char s[], int i, int j) {
-    int temp = s[i];
-    s[i] = s[j];
-    s[j] = temp;
+// void swap(char s[], int i, int j) {
+//     int temp = s[i];
+//     s[i] = s[j];
+//     s[j] = temp;
+// }
+
+void swap(void *v[], int i, int j) {
+    void *temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
 }
 
 void swap_pointer(char *v[], int i, int j) {
