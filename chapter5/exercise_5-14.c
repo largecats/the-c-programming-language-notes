@@ -23,7 +23,12 @@ int main(int argc, char *argv[]) {
 
     parse_arg(argc, argv, &n, &r); /* read n, r from command line input */
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
-        qsort1((void **) lineptr, 0, nlines-1, (int (*)(void*, void*))(n? numcmp: strcmp), r);
+        if (n) {
+            qsort1((void **) lineptr, 0, nlines-1, (int (*)(void *, void *)) numcmp, r);
+        }
+        else {
+            qsort1((void **) lineptr, 0, nlines-1, (int (*)(void *, void *)) strcmp, r);
+        }
         writelines(lineptr, nlines);
         return 0;
     }
@@ -32,6 +37,16 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 }
+
+/*
+chapter5/result.out -r
+a
+b
+c
+c
+b
+a
+*/
 
 void parse_arg(int argc, char *argv[], int *n, int *r) {
     int i = 0;

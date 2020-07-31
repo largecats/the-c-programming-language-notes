@@ -28,17 +28,17 @@ int main(int argc, char *argv[]) {
             case 0:
                 switch (f) {
                     case 0:
-                        qsort1((void **) lineptr, 0, nlines-1, strcmp, r);
+                        qsort1((void **) lineptr, 0, nlines-1, (int (*)(void *, void *)) strcmp, r);
                         break;
                     case 1:
-                        qsort1((void **) lineptr, 0, nlines-1, caseless_strcmp, r);
+                        qsort1((void **) lineptr, 0, nlines-1, (int (*)(void *, void *)) caseless_strcmp, r);
                         break;
                     default:
                         break;
                 };
                 break;
             case 1:
-                qsort1((void **) lineptr, 0, nlines-1, numcmp, r);
+                qsort1((void **) lineptr, 0, nlines-1, (int (*)(void *, void *)) numcmp, r);
                 break;
             default:
                 break;
