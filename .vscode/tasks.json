@@ -14,10 +14,10 @@
         "type": "shell",
         "command": "g++",
         "args": [
-          "/mnt/c/Users/xiaolinfan/Fun/programming/languages/c/the-c-programming-language-notes/helper_functions.c",
+          "/mnt/c/Users/xiaolf/Fun/languages/c/the-c-programming-language-notes/helper_functions.c",
           "-g",
           "-o",
-          "/mnt/c/Users/xiaolinfan/fun/programming/languages/c/the-c-programming-language-notes/result.out",
+          "/mnt/c/Users/xiaolf/Fun/languages/c/the-c-programming-language-notes/result.out",
           "'${relativeFileDirname}/${fileBasename}'"
         ],
         "group": {
@@ -31,7 +31,7 @@
       {
         "label": "run on WSL",
         "type": "shell",
-        "command": "/mnt/c/Users/xiaolinfan/fun/programming/languages/c/the-c-programming-language-notes/result.out",
+        "command": "/mnt/c/Users/xiaolf/Fun/languages/c/the-c-programming-language-notes/result.out",
         "group": {
             "kind": "build",
             "isDefault": true
