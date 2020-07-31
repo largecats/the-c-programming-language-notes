@@ -1,5 +1,5 @@
 /*
-Exercise 5-15. Add the option -f to fold upper and lower case together, so that case distinctions are not made during sorting; for example, a and A compare equal.
+Exercise 5-16. Add the -d ("directory order") option, which makes comparisons only on letters, numbers and blanks. Make sure it works in conjunction with -f.
 */
 
 #include <stdio.h>
@@ -8,37 +8,37 @@ Exercise 5-15. Add the option -f to fold upper and lower case together, so that 
 
 #define MAXLINES 5000
 char *lineptr[MAXLINES];
+int n = 0, r = 0, f = 0, d = 0;
 
 int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
-void qsort1(void *lineptr[], int left, int right, int (*comp)(void *, void *), int r);
+void qsort1(void *lineptr[], int left, int right, int (*comp)(void *, void *));
 int numcmp(char *s1, char *s2);
-int caseless_strcmp(char *s1, char *s2); /* case-insensitive strcmp */
-void parse_arg(int argc, char *argv[], int *n, int *r, int *f);
+int custom_cmp(char *s1, char *s2); /* case-insensitive strcmp */
+void parse_arg(int argc, char *argv[], int *n, int *r, int *f, int *d);
 
 /* sort input lines */
 int main(int argc, char *argv[]) {
     int nlines; /* number of input lines read */
     int numeric = 0; /* if numeric sort */
-    int n = 0, r = 0, f = 0;
 
-    parse_arg(argc, argv, &n, &r, &f); /* read n, r from command line input */
+    parse_arg(argc, argv, &n, &r, &f, &d); /* read n, r from command line input */
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
         switch (n) {
             case 0:
                 switch (f) {
                     case 0:
-                        qsort1((void **) lineptr, 0, nlines-1, strcmp, r);
+                        qsort1((void **) lineptr, 0, nlines-1, strcmp);
                         break;
                     case 1:
-                        qsort1((void **) lineptr, 0, nlines-1, caseless_strcmp, r);
+                        qsort1((void **) lineptr, 0, nlines-1, custom_cmp);
                         break;
                     default:
                         break;
                 };
                 break;
             case 1:
-                qsort1((void **) lineptr, 0, nlines-1, numcmp, r);
+                qsort1((void **) lineptr, 0, nlines-1, numcmp);
                 break;
             default:
                 break;
@@ -53,29 +53,29 @@ int main(int argc, char *argv[]) {
 }
 
 /*
-$ ./result.out
-a
-A
-A
-a
-$ ./result.out -f
-a
-A
-a
-A
-$ ./result.out -r
-A
-a
-a
-A
-$ ./result.out -r -f
-A
-a
-A
-a
+$ ./result.out -d
+!$#!@#$!2345
+!#$!@#$$1234
+!#$!@#$$1234
+!$#!@#$!2345
+$ ./result.out -d
+!@#2345
+!$%!#^@#$%@1234
+!$%!#^@#$%@1234
+!@#2345
+$ ./result.out -d
+!@$#!@#$ABC
+!#$%#@$%@^abc
+!#$%#@$%@^abc
+!@$#!@#$ABC
+$ ./result.out -d -f
+!$#@#%@#$%ABC
+#$!#%#$%@#$%@#%abc
+!$#@#%@#$%ABC
+#$!#%#$%@#$%@#%abc
 */
 
-void parse_arg(int argc, char *argv[], int *n, int *r, int *f) {
+void parse_arg(int argc, char *argv[], int *n, int *r, int *f, int *d) {
     int i = 0;
 
     while (++i < argc) {
@@ -88,10 +88,13 @@ void parse_arg(int argc, char *argv[], int *n, int *r, int *f) {
         if (strcmp(argv[i], "-f") == 0) {
             *f = 1;
         }
+        if (strcmp(argv[i], "-d") == 0) {
+            *d = 1;
+        }
     }
 }
 
-void qsort1(void *v[], int left, int right, int (*comp)(void *, void *), int r) {
+void qsort1(void *v[], int left, int right, int (*comp)(void *, void *)) {
     int i, last;
     void swap(void *v[], int, int);
 
@@ -106,8 +109,8 @@ void qsort1(void *v[], int left, int right, int (*comp)(void *, void *), int r) 
         }
     }
     swap(v, left, last);
-    qsort1(v, left, last-1, comp, r);
-    qsort1(v, last+1, right, comp, r);
+    qsort1(v, left, last-1, comp);
+    qsort1(v, last+1, right, comp);
 }
 
 #include <stdlib.h>
@@ -132,14 +135,32 @@ int numcmp(char *s1, char *s2) {
 
 #include <ctype.h>
 
-/* caseless_strcmp: compare s1 and s2 in case-insensitive manner */
-int caseless_strcmp(char *s1, char *s2) {
-    for (; tolower(*s1) == tolower(*s2); s1++, s2++) {
-        if (*s1 == '\0') {
-            return 0;
+/* custom_cmp: compare s1 and s2 with customization */
+int custom_cmp(char *s1, char *s2) {
+    while (*s1 != '\0') {
+        char a, b;
+
+        a = f? tolower(*s1): *s1;
+        b = f? tolower(*s2): *s2;
+        if (d) {
+            if (a != ' ' || !isdigit(a) || !isalpha(a)) {
+                s1++;
+            }
+            if (b != ' ' || !isdigit(b) || !isalpha(b)) {
+                s2++;
+            }
+        }
+        else {
+            if (a == b) {
+                s1++;
+                s2++;
+            }
+            else {
+                return a - b;
+            }
         }
     }
-    return *s1 - *s2;
+    return 0;
 }
 
 #define MAXLEN 1000 /* max length of any input line */
