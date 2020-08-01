@@ -4,11 +4,14 @@
 #include "../helper_functions.h"
 
 int main() {
-    print_variable('A');
-    print_variable('a');
-    print_variable('Z');
-    printf("%f\n", atof("A"));
-    printf("%f\n", atof("a"));
+    char *token, *string, *tofree;
+
+    tofree = string = strdup("abc,def,ghi");
+
+    while ((token = strsep(&string, ",")) != NULL)
+        printf("%s\n", token);
+
+    free(tofree);
 
     return 0;
 }
