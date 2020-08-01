@@ -29,26 +29,23 @@ void get_field(char *from, char *start, char *end);
 int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
 void qsort1(void *lineptr[], int left, int right, int (*comp)(void *, void *));
+void bubble_sort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
 void sort_lines(int left, int right);
 int numcmp(char *s1, char *s2);
 int custom_cmp(char *s1, char *s2); /* case-insensitive strcmp */
+int custom_strcmp(char *s1, char *s2);
+void get_substring(char *from, char *to, int start, int end);
 
 int main(int argc, char *argv[]) {
     int nlines; /* number of input lines read */
     parse_args(argc, argv, fields, fieldArgs);
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
         int i = 0;
-        print_variable(fields[i][0]);\
-        if (fields[i][0] == -1) {
+        print_variable(fields[i][0]);
+        while (fields[i][0] != (-1)) {
             update_args(&n, &r, &f, &d, &fieldStart, &fieldEnd, fields[i], fieldArgs[i]);
             sort_lines(0, nlines-1);
-        }
-        else {
-            while (fields[i][0] != (-1)) {
-                update_args(&n, &r, &f, &d, &fieldStart, &fieldEnd, fields[i], fieldArgs[i]);
-                sort_lines(0, nlines-1);
-                i++;
-            }
+            i++;
         }
         writelines(lineptr, nlines);
         return 0;
@@ -59,22 +56,50 @@ int main(int argc, char *argv[]) {
     }
 }
 
+/*
+chapter5/result.out -k 0,2 -n -k 3,5 -r
+123abc
+234bcd
+123bcd
+
+234bcd
+123bcd
+123abc
+
+This is because qsort is not a stable sorting algorithm, the order of the first two lines sorted by the first field 
+changed when sorting by the second field.
+
+When using the stable bubble_sort, the output is correct:
+
+chapter5/result.out -k 0,2 -n -k 3,5 -r
+123abc
+234bcd
+123bcd
+
+123bcd
+234bcd
+123abc
+*/
+
 void sort_lines(int left, int right) {
     switch (n) {
         case 0:
             switch (f) {
                 case 0:
-                    qsort1((void **) lineptr, left, right, (int (*)(void *, void *)) strcmp);
+                    // qsort1((void **) lineptr, left, right, (int (*)(void *, void *)) strcmp);
+                    bubble_sort((void **) lineptr, left, right, (int (*)(void *, void *)) custom_strcmp);
                     break;
                 case 1:
-                    qsort1((void **) lineptr, left, right, (int (*)(void *, void *)) custom_cmp);
+                    // qsort1((void **) lineptr, left, right, (int (*)(void *, void *)) custom_cmp);
+                    bubble_sort((void **) lineptr, left, right, (int (*)(void *, void *)) custom_cmp);
                     break;
                 default:
                     break;
             };
             break;
         case 1:
-            qsort1((void **) lineptr, left, right, (int (*)(void *, void *)) numcmp);
+            // qsort1((void **) lineptr, left, right, (int (*)(void *, void *)) numcmp);
+            bubble_sort((void **) lineptr, left, right, (int (*)(void *, void *)) numcmp);
             break;
         default:
             break;
@@ -90,6 +115,8 @@ void parse_args(int argc, char *argv[], int fields[MAXFIELDS][2], int fieldArgs[
             fields[row][col] = -1;
         }
     }
+    fields[0][0] = 0;
+    fields[0][1] = MAXLEN;
 
     while (++i < argc) {
         if (strcmp(argv[i], "-k") == 0) {
@@ -181,15 +208,39 @@ void qsort1(void *v[], int left, int right, int (*comp)(void *, void *)) {
     qsort1(v, last+1, right, comp);
 }
 
+void bubble_sort(void *v[], int left, int right, int (*comp)(void *, void *)) {
+    int i, j;
+
+    for (i=left; i<right; i++) {
+        for (j=left; j<right-i; j++) {
+            if (r? (*comp)(v[j], v[j+1]) < 0: (*comp)(v[j], v[j+1]) > 0) {
+                swap_pointer_version(v, j, j+1);
+            }
+        }
+    }
+}
+
 #include <stdlib.h>
 
-/* numcmp: compare s1 and s2 numerically */
+void get_substring(char *from, char *to, int start, int end) {
+    int i;
+    for (i=start; i <= end; i++) {
+        to[i-start] = from[i];
+    }
+    to[i] = '\0';
+    print_string(to);
+}
 
+/* numcmp: compare s1 and s2 numerically */
 int numcmp(char *s1, char *s2) {
     double v1, v2;
+    int fieldLen = fieldEnd - fieldStart;
+    char field1[fieldLen], field2[fieldLen];
+    get_substring(s1, field1, fieldStart, fieldEnd);
+    get_substring(s2, field2, fieldStart, fieldEnd);
 
-    v1 = atof(s1);
-    v2 = atof(s2);
+    v1 = atof(field1);
+    v2 = atof(field2);
     if (v1 < v2) {
         return -1;
     }
@@ -201,27 +252,35 @@ int numcmp(char *s1, char *s2) {
     }
 }
 
+int custom_strcmp(char *s1, char *s2) {
+    int fieldLen = fieldEnd - fieldStart;
+    char field1[fieldLen], field2[fieldLen];
+    get_substring(s1, field1, fieldStart, fieldEnd);
+    get_substring(s2, field2, fieldStart, fieldEnd);
+    return strcmp(field1, field2);
+}
+
 #include <ctype.h>
 
 /* custom_cmp: compare s1 and s2 with customization */
-int custom_cmp(char *s1, char *s2) {
-    while (*s1 != '\0') {
+int custom_cmp_helper(char *field1, char *field2) {
+    while (*field1 != '\0') {
         char a, b;
 
-        a = f? tolower(*s1): *s1;
-        b = f? tolower(*s2): *s2;
+        a = f? tolower(*field1): *field1;
+        b = f? tolower(*field2): *field2;
         if (d) {
             if (a != ' ' || !isdigit(a) || !isalpha(a)) {
-                s1++;
+                field1++;
             }
             if (b != ' ' || !isdigit(b) || !isalpha(b)) {
-                s2++;
+                field2++;
             }
         }
         else {
             if (a == b) {
-                s1++;
-                s2++;
+                field1++;
+                field2++;
             }
             else {
                 return a - b;
@@ -229,6 +288,13 @@ int custom_cmp(char *s1, char *s2) {
         }
     }
     return 0;
+}
+int custom_cmp(char *s1, char *s2) {
+    int fieldLen = fieldEnd - fieldStart;
+    char field1[fieldLen], field2[fieldLen];
+    get_substring(s1, field1, fieldStart, fieldEnd);
+    get_substring(s2, field2, fieldStart, fieldEnd);
+    return custom_cmp_helper(field1, field2);
 }
 
 /* readlines: read input lines and store in array of pointers*/
