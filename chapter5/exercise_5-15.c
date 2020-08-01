@@ -93,19 +93,18 @@ void parse_arg(int argc, char *argv[], int *n, int *r, int *f) {
 
 void qsort1(void *v[], int left, int right, int (*comp)(void *, void *), int r) {
     int i, last;
-    void swap(void *v[], int, int);
 
     if (left >= right) {
         return;
     }
-    swap(v, left, (left + right)/2);
+    swap_pointer_version(v, left, (left + right)/2);
     last = left;
     for (i = left+1; i <= right; i++) {
         if (r? (*comp)(v[i], v[left]) > 0: (*comp)(v[i], v[left])< 0) {
-            swap(v, ++last, i);
+            swap_pointer_version(v, ++last, i);
         }
     }
-    swap(v, left, last);
+    swap_pointer_version(v, left, last);
     qsort1(v, left, last-1, comp, r);
     qsort1(v, last+1, right, comp, r);
 }

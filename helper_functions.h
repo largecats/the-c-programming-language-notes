@@ -7,10 +7,10 @@
 
 void print_array(int arr[]);
 void print_float_array(double arr[]);
-// void swap(char s[], int i, int j);
-void swap(void *v[], int i, int j);
-// int getch(void);
-// void ungetch(int c);
+void swap(char s[], int i, int j);
+void swap_pointer_version(void *v[], int i, int j);
+int getch(void);
+void ungetch(int c);
 
 /* memory allocator */
 #define ALLOCSIZE 10000
@@ -21,8 +21,6 @@ static char *allocp = allocbuf; /* pointer to the next free position, initialize
 char *alloc(int n);
 void afree(char *p);
 
-// int getline(char [], int);
 int getline_pointer_version(char *, int);
-void swap_pointer(char *s[], int i, int j);
 
 void print_char_with_visible_blanks(char c);

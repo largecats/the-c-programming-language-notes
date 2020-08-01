@@ -24,41 +24,35 @@ void print_float_array(double arr[]) {
     printf("]\n");
 }
 
-// void swap(char s[], int i, int j) {
-//     int temp = s[i];
-//     s[i] = s[j];
-//     s[j] = temp;
-// }
-
-void swap(void *v[], int i, int j) {
-    void *temp = v[i];
-    v[i] = v[j];
-    v[j] = temp;
+void swap(char s[], int i, int j) {
+    int temp = s[i];
+    s[i] = s[j];
+    s[j] = temp;
 }
 
-void swap_pointer(char *v[], int i, int j) {
+void swap_pointer_version(void *v[], int i, int j) {
     char *temp = v[i];
     v[i] = v[j];
     v[j] = temp;
 }
 
-// #define BUFSIZE 100
+#define BUFSIZE 100
 
-// char buf[BUFSIZE];
-// int bufp = 0; /* next free position in buf */
+char buf[BUFSIZE];
+int bufp = 0; /* next free position in buf */
 
-// int getch(void) { /* get character from buffer */
-//     return (bufp > 0)? buf[--bufp]: getchar(); /* get from last occupied position in buf */
-// }
+int getch(void) { /* get character from buffer */
+    return (bufp > 0)? buf[--bufp]: getchar(); /* get from last occupied position in buf */
+}
 
-// void ungetch(int c) { /* push character back to buffer */
-//     if (bufp >= BUFSIZE) {
-//         printf("ungetch: too many characters\n");
-//     }
-//     else {
-//         buf[bufp++] = c;
-//     }
-// }
+void ungetch(int c) { /* push character back to buffer */
+    if (bufp >= BUFSIZE) {
+        printf("ungetch: too many characters\n");
+    }
+    else {
+        buf[bufp++] = c;
+    }
+}
 
 char *alloc(int n) {
     /* return pointer to the start of n characters block of free space */
@@ -77,22 +71,6 @@ void afree(char *p) {
         allocp = p; /* re-assign pointer to next free position */
     }
 }
-
-// int getline(char s[], int lim) {
-//     int c, i;
-
-//     i = 0;
-//     while (i<lim-1 && (c=getchar())!=EOF && c!='\n') {
-//         s[i] = c;
-//         i++;
-//     }
-//     if (c == '\n') {
-//         s[i] = c;
-//         i++;
-//     }
-//     s[i] = '\0';
-//     return i;
-// }
 
 int getline_pointer_version(char *s, int lim) {
     int c;
