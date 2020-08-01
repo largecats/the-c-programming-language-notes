@@ -23,12 +23,13 @@ int n = 0, r = 0, f = 0, d = 0; // numeric, reverse, fold, directory
 int fieldStart = 0, fieldEnd = 0;
 
 void parse_args(int argc, char *argv[], int fields[MAXFIELDS][2], int fieldArgs[MAXFIELDS][4]);
-void update_args(int *n, int *r, int *f, int *d, int args[4]);
+void update_args(int *n, int *r, int *f, int *d, int *fieldStart, int *fieldEnd, int fields[2], int fieldArgs[4]);
 int isnumber(char c);
 void get_field(char *from, char *start, char *end);
 int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
 void qsort1(void *lineptr[], int left, int right, int (*comp)(void *, void *));
+void sort_lines(int left, int right);
 int numcmp(char *s1, char *s2);
 int custom_cmp(char *s1, char *s2); /* case-insensitive strcmp */
 
@@ -37,37 +38,17 @@ int main(int argc, char *argv[]) {
     parse_args(argc, argv, fields, fieldArgs);
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
         int i = 0;
-        print_variable(fields[i][0]);
-        while (fields[i][0] != (-1)) {
-            fieldStart = fields[i][0];
-            fieldEnd = fields[i][1];
-            print_variable(fieldStart);
-            print_variable(fieldEnd);
-            update_args(&n, &r, &f, &d, fieldArgs[i]);
-            print_variable(n);
-            print_variable(r);
-            print_variable(f);
-            print_variable(d);
-            switch (n) {
-                case 0:
-                    switch (f) {
-                        case 0:
-                            qsort1((void **) lineptr, fieldStart, fieldEnd, (int (*)(void *, void *)) strcmp);
-                            break;
-                        case 1:
-                            qsort1((void **) lineptr, fieldStart, fieldEnd, (int (*)(void *, void *)) custom_cmp);
-                            break;
-                        default:
-                            break;
-                    };
-                    break;
-                case 1:
-                    qsort1((void **) lineptr, fieldStart, fieldEnd, (int (*)(void *, void *)) numcmp);
-                    break;
-                default:
-                    break;
+        print_variable(fields[i][0]);\
+        if (fields[i][0] == -1) {
+            update_args(&n, &r, &f, &d, &fieldStart, &fieldEnd, fields[i], fieldArgs[i]);
+            sort_lines(0, nlines-1);
+        }
+        else {
+            while (fields[i][0] != (-1)) {
+                update_args(&n, &r, &f, &d, &fieldStart, &fieldEnd, fields[i], fieldArgs[i]);
+                sort_lines(0, nlines-1);
+                i++;
             }
-            i++;
         }
         writelines(lineptr, nlines);
         return 0;
@@ -78,10 +59,32 @@ int main(int argc, char *argv[]) {
     }
 }
 
+void sort_lines(int left, int right) {
+    switch (n) {
+        case 0:
+            switch (f) {
+                case 0:
+                    qsort1((void **) lineptr, left, right, (int (*)(void *, void *)) strcmp);
+                    break;
+                case 1:
+                    qsort1((void **) lineptr, left, right, (int (*)(void *, void *)) custom_cmp);
+                    break;
+                default:
+                    break;
+            };
+            break;
+        case 1:
+            qsort1((void **) lineptr, left, right, (int (*)(void *, void *)) numcmp);
+            break;
+        default:
+            break;
+    }
+}
+
 void parse_args(int argc, char *argv[], int fields[MAXFIELDS][2], int fieldArgs[MAXFIELDS][4]) {
     /* parse arguments from command line */
     int i = 0;
-    int fieldPtr = -1;
+    int fieldPtr = 0;
     for (int row=0; row<MAXFIELDS; row++) {
         for (int col=0; col<=2; col++) {
             fields[row][col] = -1;
@@ -125,11 +128,19 @@ void parse_args(int argc, char *argv[], int fields[MAXFIELDS][2], int fieldArgs[
     }
 }
 
-void update_args(int *n, int *r, int *f, int *d, int args[4]) {
-    *n = args[0];
-    *r = args[1];
-    *f = args[2];
-    *d = args[3];
+void update_args(int *n, int *r, int *f, int *d, int *fieldStart, int *fieldEnd, int fields[2], int fieldArgs[4]) {
+    *n = fieldArgs[0];
+    *r = fieldArgs[1];
+    *f = fieldArgs[2];
+    *d = fieldArgs[3];
+    *fieldStart = fields[0];
+    *fieldEnd = fields[1];
+    print_variable(*n);
+    print_variable(*r);
+    print_variable(*f);
+    print_variable(*d);
+    print_variable(*fieldStart);
+    print_variable(*fieldEnd);
 }
 
 int isnumber(char c) {
