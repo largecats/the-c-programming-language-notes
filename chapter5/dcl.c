@@ -23,7 +23,6 @@ int main() {
         strcpy(datatype, token); /* 1st token on line is the data type */
         out[0] = '\0';
         dcl(); /* parse rest of line */
-        print_char_with_visible_blanks(tokentype);
         if (tokentype != '\n') {
             printf("syntax error\n");
         }
@@ -31,6 +30,24 @@ int main() {
     }
     return 0;
 }
+
+/*
+$ chapter5/result.out
+char **argv
+argv:  pointer to pointer to char
+int (*daytab)[13]
+daytab:  pointer to array[13] of int
+int *daytab[13]
+daytab:  array[13] of pointer to int
+void *comp()
+comp:  function returning pointer to void
+void (*comp)()
+comp:  pointer to function returning void
+char (*(*x())[])()
+x:  function returning pointer to array[] of pointer to function returning char
+char (*(*x[3])())[5]
+x:  array[3] of pointer to function returning pointer to array[5] of char
+*/
 
 int gettoken(void) {
     /* return next topken */
@@ -94,21 +111,21 @@ void dirdcl(void) {
         if (tokentype != ')') {
             printf("error: missing )\n");
         }
-        else if (tokentype == NAME) { /* variable name */
+    }
+    else if (tokentype == NAME) { /* variable name */
             strcpy(name, token);
+    }
+    else {
+        printf("error: expected name or (dcl)\n");
+    }
+    while ((type=gettoken()) == PARENS || type == BRACKETS) {
+        if (type == PARENS) {
+            strcat(out, " function returning");
         }
         else {
-            printf("error: expected name or (dcl)\n");
-        }
-        while ((type=gettoken()) == PARENS || type == BRACKETS) {
-            if (type == PARENS) {
-                strcat(out, " function returning");
-            }
-            else {
-                strcat(out, " array");
-                strcat(out, token);
-                strcat(out, " of");
-            }
+            strcat(out, " array");
+            strcat(out, token);
+            strcat(out, " of");
         }
     }
 }
