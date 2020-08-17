@@ -10,8 +10,8 @@ int main(int argc, char *argv[]) { // won't raise error because array parameter 
 }
 
 /*
-xiaolinfan@DESKTOP-FNKD3TG:/mnt/c/Users/xiaolinfan/Fun/programming/languages/languages/the-c-programming-language/chapter5$ gcc scratch.c -o result.out
-xiaolinfan@DESKTOP-FNKD3TG:/mnt/c/Users/xiaolinfan/Fun/programming/languages/languages/the-c-programming-language/chapter5$ ./result.out hello world
+$ gcc scratch.c -o result.out
+$ ./result.out hello world
 (*++argv)[0] = h
 *++(argv[0]) = e
 */
