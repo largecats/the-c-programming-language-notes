@@ -23,19 +23,19 @@ int main() {
     char temp[MAXTOKEN];
 
     while (gettoken() != EOF) {
-        strcpy(out, token);
+        strcpy(out, token); /* copy token value to out */
         while ((type = gettoken()) != '\n') {
             if (type == PARENS || type == BRACKETS) {
-                /* directly output () or [] */
+                /* directly put (), [] behind token value */
                 strcat(out, token);
             }
             else if (type == '*') {
-                /* enclose out in parenthesis and store in temp, then copy temp to out */
+                /* enclose * + token value in parentheses and store in temp, then copy temp to out */
                 sprintf(temp, "(*%s)", out); /* The sprintf() works just like printf() but instead of sending output to console it returns the formatted string. */
                 strcpy(out, temp);
             }
             else if (type == NAME) {
-                /* format token, out and store in temp, then copy temp to out */
+                /* put name in front of current output */
                 sprintf(temp, "%s %s", token, out);
                 strcpy(out, temp);
             }
@@ -48,8 +48,19 @@ int main() {
     return 0;
 }
 
+/*
+input: x () * [] * () char
+x
+x()
+(*x())
+(*x())[]
+(*(*x())[])
+(*(*x())[])()
+char (*(*x())[])()
+*/
+
 int gettoken(void) {
-    /* return next topken */
+    /* return the type of the next token and write token value to variable token */
     int c, getch(void);
     void ungetch(int);
     char *p = token;
