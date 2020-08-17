@@ -88,7 +88,7 @@ tokentype =
 */
 
 int gettoken(void) {
-    /* return the type of the next token and write token value to variable token */
+    /* return the type of the next token, write token value to variable token, and write token type to variable tokentype */
     int c, getch(void);
     void ungetch(int);
     char *p = token;
