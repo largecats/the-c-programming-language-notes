@@ -13,7 +13,7 @@ int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
 void qsort1(void *lineptr[], int left, int right, int (*comp)(void *, void *), int r);
 int numcmp(char *, char *);
-void parse_arg(int argc, char *argv[], int *n, int *r);
+void parse_args(int argc, char *argv[], int *n, int *r);
 
 /* sort input lines */
 int main(int argc, char *argv[]) {
@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     int numeric = 0; /* if numeric sort */
     int n = 0, r = 0;
 
-    parse_arg(argc, argv, &n, &r); /* read n, r from command line input */
+    parse_args(argc, argv, &n, &r); /* read n, r from command line input */
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
         if (n) {
             qsort1((void **) lineptr, 0, nlines-1, (int (*)(void *, void *)) numcmp, r);
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 }
 
 /*
-$ gcc chapter5/5.11/exercise_5-14/main.c chapter5/5.11/exercise_5-14/arg_parser.c chapter5/5.11/exercise_5-14/io.c chapter5/5.11/exercise_5-14/sort.c helper_functions.c -o chapter5/5.11/exercise_5-14/result.out
+$ gcc chapter5/5.11/exercise_5-14/main.c chapter5/5.11/exercise_5-14/parse_args.c chapter5/5.11/exercise_5-14/io.c chapter5/5.11/exercise_5-14/sort.c helper_functions.c -o chapter5/5.11/exercise_5-14/result.out
 
 $ chapter5/5.11/exercise_5-14/result.out -r
 a

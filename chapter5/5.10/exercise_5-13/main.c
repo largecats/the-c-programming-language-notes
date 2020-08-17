@@ -12,7 +12,7 @@ prints the last n lines. The program should behave rationally no matter how unre
 
 char *lineptr[MAXLINES]; /* array of pointers to the starting char of line */
 
-void parse_arg(int argc, char *argv[], int *np);
+void parse_args(int argc, char *argv[], int *np);
 int readlines(char *lineptr[], int nlines, int n);
 void tail(char *lineptr[], int nlines, int n);
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     int n, nlines;
 
     n = 10;
-    parse_arg(argc, argv, &n);
+    parse_args(argc, argv, &n);
     if ((nlines = readlines(lineptr, MAXLINES, n)) >= 0) {
         tail(lineptr, nlines, n);
         return 0;

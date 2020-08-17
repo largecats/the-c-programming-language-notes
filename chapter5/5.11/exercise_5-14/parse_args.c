@@ -2,7 +2,7 @@
 #include "../../../helper_functions.h"
 #include "extern.h"
 
-void parse_arg(int argc, char *argv[], int *n, int *r) {
+void parse_args(int argc, char *argv[], int *n, int *r) {
     int i = 0;
 
     while (++i < argc) {

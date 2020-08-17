@@ -14,7 +14,7 @@ void writelines(char *lineptr[], int nlines);
 void qsort1(void *lineptr[], int left, int right, int (*comp)(void *, void *), int r);
 int numcmp(char *s1, char *s2);
 int caseless_strcmp(char *s1, char *s2); /* case-insensitive strcmp */
-void parse_arg(int argc, char *argv[], int *n, int *r, int *f);
+void parse_args(int argc, char *argv[], int *n, int *r, int *f);
 
 /* sort input lines */
 int main(int argc, char *argv[]) {
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     int numeric = 0; /* if numeric sort */
     int n = 0, r = 0, f = 0;
 
-    parse_arg(argc, argv, &n, &r, &f); /* read n, r from command line input */
+    parse_args(argc, argv, &n, &r, &f); /* read n, r from command line input */
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
         switch (n) {
             case 0:
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 }
 
 /*
-$ gcc chapter5/5.11/exercise_5-15/main.c chapter5/5.11/exercise_5-15/arg_parser.c chapter5/5.11/exercise_5-15/io.c chapter5/5.11/exercise_5-15/sort.c helper_functions.c -o chapter5/5.11/exercise_5-15/result.out
+$ gcc chapter5/5.11/exercise_5-15/main.c chapter5/5.11/exercise_5-15/parse_args.c chapter5/5.11/exercise_5-15/io.c chapter5/5.11/exercise_5-15/sort.c helper_functions.c -o chapter5/5.11/exercise_5-15/result.out
 
 $ chapter5/5.11/exercise_5-15/result.out
 a

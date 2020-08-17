@@ -10,7 +10,7 @@ Exercise 5-16. Add the -d ("directory order") option, which makes comparisons on
 char *lineptr[MAXLINES];
 int n = 0, r = 0, f = 0, d = 0;
 
-void parse_arg(int argc, char *argv[], int *n, int *r, int *f, int *d);
+void parse_args(int argc, char *argv[], int *n, int *r, int *f, int *d);
 int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
 void qsort1(void *lineptr[], int left, int right, int (*comp)(void *, void *));
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     int nlines; /* number of input lines read */
     int numeric = 0; /* if numeric sort */
 
-    parse_arg(argc, argv, &n, &r, &f, &d); /* read n, r from command line input */
+    parse_args(argc, argv, &n, &r, &f, &d); /* read n, r from command line input */
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
         switch (n) {
             case 0:
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 }
 
 /*
-$ gcc chapter5/5.11/exercise_5-16/main.c chapter5/5.11/exercise_5-16/arg_parser.c chapter5/5.11/exercise_5-16/io.c chapter5/5.11/exercise_5-16/sort.c helper_functions.c -o chapter5/5.11/exercise_5-16/result.out
+$ gcc chapter5/5.11/exercise_5-16/main.c chapter5/5.11/exercise_5-16/parse_args.c chapter5/5.11/exercise_5-16/io.c chapter5/5.11/exercise_5-16/sort.c helper_functions.c -o chapter5/5.11/exercise_5-16/result.out
 
 $ chapter5/5.11/exercise_5-16/result.out -d
 !$#!@#$!2345

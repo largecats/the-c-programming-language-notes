@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 }
 
 /*
-$ gcc chapter5/5.11/exercise_5-17/main.c chapter5/5.11/exercise_5-17/arg_parser.c chapter5/5.11/exercise_5-17/io.c chapter5/5.11/exercise_5-17/sort.c helper_functions.c -o chapter5/5.11/exercise_5-17/result.out
+$ gcc chapter5/5.11/exercise_5-17/main.c chapter5/5.11/exercise_5-17/parse_args.c chapter5/5.11/exercise_5-17/io.c chapter5/5.11/exercise_5-17/sort.c helper_functions.c -o chapter5/5.11/exercise_5-17/result.out
 
 chapter5/5.11/exercise_5-17/result.out -k 0,2 -n -k 3,5 -r
 123abc
