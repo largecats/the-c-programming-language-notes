@@ -7,7 +7,6 @@ Exercise 5-16. Add the -d ("directory order") option, which makes comparisons on
 #include "../../../helper_functions.h"
 #include "extern.h"
 
-#define MAXLINES 5000
 char *lineptr[MAXLINES];
 int n = 0, r = 0, f = 0, d = 0;
 

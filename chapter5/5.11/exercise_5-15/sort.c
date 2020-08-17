@@ -4,7 +4,7 @@
 #include "../../../helper_functions.h"
 #include "extern.h"
 
-void qsort1(void *v[], int left, int right, int (*comp)(void *, void *)) {
+void qsort1(void *v[], int left, int right, int (*comp)(void *, void *), int r) {
     int i, last;
 
     if (left >= right) {
@@ -18,8 +18,8 @@ void qsort1(void *v[], int left, int right, int (*comp)(void *, void *)) {
         }
     }
     swap_pointer_version(v, left, last);
-    qsort1(v, left, last-1, comp);
-    qsort1(v, last+1, right, comp);
+    qsort1(v, left, last-1, comp, r);
+    qsort1(v, last+1, right, comp, r);
 }
 
 /* numcmp: compare s1 and s2 numerically */
@@ -40,30 +40,12 @@ int numcmp(char *s1, char *s2) {
     }
 }
 
-/* custom_cmp: compare s1 and s2 with customization */
-int custom_cmp(char *s1, char *s2) {
-    while (*s1 != '\0') {
-        char a, b;
-
-        a = f? tolower(*s1): *s1;
-        b = f? tolower(*s2): *s2;
-        if (d) {
-            if (a != ' ' || !isdigit(a) || !isalpha(a)) {
-                s1++;
-            }
-            if (b != ' ' || !isdigit(b) || !isalpha(b)) {
-                s2++;
-            }
-        }
-        else {
-            if (a == b) {
-                s1++;
-                s2++;
-            }
-            else {
-                return a - b;
-            }
+/* caseless_strcmp: compare s1 and s2 in case-insensitive manner */
+int caseless_strcmp(char *s1, char *s2) {
+    for (; tolower(*s1) == tolower(*s2); s1++, s2++) {
+        if (*s1 == '\0') {
+            return 0;
         }
     }
-    return 0;
+    return *s1 - *s2;
 }
