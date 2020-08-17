@@ -41,7 +41,8 @@ int main() {
 }
 
 /*
-$ chapter5/result.out
+gcc chapter5/5.12/exercise_5-20/main.c chapter5/5.12/exercise_5-20/parmdcl.c chapter5/5.12/exercise_5-20/gettoken.c helper_functions.c -o chapter5/5.12/exercise_5-20/result.out
+$ chapter5/5.12/exercise_5-20/result.out
 token =
 tokentype = 0
 int compare(char **s, char **t)

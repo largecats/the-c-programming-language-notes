@@ -9,7 +9,7 @@ http://www.learntosolveit.com/cprogramming/Ex_5.19_undcl.html
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "../helper_functions.h"
+#include "../../../helper_functions.h"
 
 #define MAXTOKEN 100
 
@@ -21,12 +21,13 @@ void dirdcl(void);
 
 int gettoken(void);
 int nexttoken(void);
+
 int tokentype; /* type of last token */
 char token[MAXTOKEN]; /* last toekn string */
 char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc */
 char out[1000]; /* output string */
-int prevtoken = NO;
+int prevtoken;
 
 /* undcl: convert word description to declaraction */
 int main() {
@@ -65,13 +66,15 @@ int main() {
 }
 
 /*
+$ gcc chapter5/5.12/exercise_5-19/main.c chapter5/5.12/exercise_5-19/gettoken.c helper_functions.c -o chapter5/5.12/exercise_5-19/result.out
+
 Before:
-$ chapter5/result.out
+$ chapter5/5.12/exercise_5-19/result.out
 argv * * char
 char (*(*argv))
 
 After:
-$ chapter5/result.out
+$ chapter5/5.12/exercise_5-19/result.out
 argv * * char
 char **argv
 */
@@ -83,50 +86,4 @@ int nexttoken(void) {
     type = gettoken();
     prevtoken = YES;
     return type;
-}
-
-int gettoken(void) {
-    /* return the type of the next token and write token value to variable token */
-    int c, getch(void);
-    void ungetch(int);
-    char *p = token;
-
-    /* return the last tokentype without updating it */
-    if (prevtoken == YES) {
-        prevtoken = NO;
-        return tokentype;
-    }
-
-    while ((c = getch()) == ' ' || c == '\t') {
-        ; /* skip blanks and tabs */
-    }
-    if (c == '(') {
-        /* peek at the next character */
-        if ((c = getch()) == ')') { /* if the next character is closing paren */
-            strcpy(token, "()");
-            return tokentype = PARENS;
-        }
-        else {
-            ungetch(c); /* put back the next character to input buffer*/
-            return tokentype = '(';
-        }
-    }
-    else if (c == '[') {
-        for (*p++ = c; (*p++ = getch()) != ']'; ) {
-            ; /* read characters enclosed by [] */
-        }
-        *p = '\0';
-        return tokentype = BRACKETS;
-    }
-    else if (isalpha(c)) {
-        /* name starts with letter and may contain numbers */
-        for (*p++ = c; isalnum(c = getch());) {
-            *p++ = c; /* read name */
-        }
-        *p = '\0';
-        ungetch(c);
-        return tokentype = NAME;
-    } else {
-        return tokentype = c;
-    }
 }
