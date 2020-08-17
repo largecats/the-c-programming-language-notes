@@ -26,13 +26,16 @@ int main() {
         strcpy(out, token);
         while ((type = gettoken()) != '\n') {
             if (type == PARENS || type == BRACKETS) {
+                /* directly output () or [] */
                 strcat(out, token);
             }
             else if (type == '*') {
-                sprintf(temp, "(*%s)", out);
+                /* enclose out in parenthesis and store in temp, then copy temp to out */
+                sprintf(temp, "(*%s)", out); /* The sprintf() works just like printf() but instead of sending output to console it returns the formatted string. */
                 strcpy(out, temp);
             }
             else if (type == NAME) {
+                /* format token, out and store in temp, then copy temp to out */
                 sprintf(temp, "%s %s", token, out);
                 strcpy(out, temp);
             }
@@ -67,7 +70,7 @@ int gettoken(void) {
     }
     else if (c == '[') {
         for (*p++ = c; (*p++ = getch()) != ']'; ) {
-            ;
+            ; /* read characters enclosed by [] */
         }
         *p = '\0';
         return tokentype = BRACKETS;
@@ -75,7 +78,7 @@ int gettoken(void) {
     else if (isalpha(c)) {
         /* name starts with letter and may contain numbers */
         for (*p++ = c; isalnum(c = getch());) {
-            *p++ = c;
+            *p++ = c; /* read name */
         }
         *p = '\0';
         ungetch(c);

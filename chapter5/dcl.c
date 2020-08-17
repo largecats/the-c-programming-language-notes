@@ -50,7 +50,7 @@ x:  array[3] of pointer to function returning pointer to array[5] of char
 */
 
 int gettoken(void) {
-    /* return next topken */
+    /* return next token */
     int c, getch(void);
     void ungetch(int);
     char *p = token;
@@ -61,7 +61,7 @@ int gettoken(void) {
     if (c == '(') {
         /* peek at the next character */
         if ((c = getch()) == ')') { /* if the next character is closing paren */
-            strcpy(token, "()");
+            strcpy(token, "()"); /* store token '()' in variable token */
             return tokentype = PARENS;
         }
         else {
@@ -71,7 +71,7 @@ int gettoken(void) {
     }
     else if (c == '[') {
         for (*p++ = c; (*p++ = getch()) != ']'; ) {
-            ;
+            ; /* read characters enclosed by [] */
         }
         *p = '\0';
         return tokentype = BRACKETS;
@@ -79,7 +79,7 @@ int gettoken(void) {
     else if (isalpha(c)) {
         /* name starts with letter and may contain numbers */
         for (*p++ = c; isalnum(c = getch());) {
-            *p++ = c;
+            *p++ = c; /* read name */
         }
         *p = '\0';
         ungetch(c);
@@ -93,10 +93,10 @@ int gettoken(void) {
 void dcl(void) {
     int ns;
 
-    for (ns = 0; gettoken() == '*'; ) /* count *'s */ {
+    for (ns = 0; gettoken() == '*'; ) /* count *s */ {
         ns++;
     }
-    dirdcl();
+    dirdcl(); /* parse direct dcl, which is without *s */ 
     while (ns-- > 0) {
         strcat(out, " pointer to");
     }
@@ -106,23 +106,29 @@ void dcl(void) {
 void dirdcl(void) {
     int type;
 
+    /* 
+    By definition, a direct dcl must begin with an identifier name or parenthesis, e.g., name, name[], (dcl), name().
+    */
     if (tokentype == '(') {
-        dcl();
+        dcl(); /* parse the dcl contained within parentheses */
         if (tokentype != ')') {
             printf("error: missing )\n");
         }
     }
     else if (tokentype == NAME) { /* variable name */
-            strcpy(name, token);
+        strcpy(name, token);
     }
     else {
         printf("error: expected name or (dcl)\n");
     }
+    /* The following tokens after the first one must be () or [] */
     while ((type=gettoken()) == PARENS || type == BRACKETS) {
         if (type == PARENS) {
+            /* token of the form xxx() must be a function */
             strcat(out, " function returning");
         }
         else {
+            /* token of the form xxx[] must be an array */
             strcat(out, " array");
             strcat(out, token);
             strcat(out, " of");
