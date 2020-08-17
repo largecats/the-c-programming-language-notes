@@ -101,7 +101,7 @@ int gettoken(void) {
         print_char(tokentype);
     }
     
-    /* handle error and move on */
+    /* handle error by returning the last tokentype and move on */
     if (prevtoken == YES) {
         prevtoken = NO;
         return tokentype;

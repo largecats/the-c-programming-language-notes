@@ -41,6 +41,7 @@ int main() {
                 strcat(out, token);
             }
             else if (type == '*') {
+                /* peek at the next token to see if need to add parentheses */
                 if ((type = nexttoken()) == PARENS || type == BRACKETS) {
                     sprintf(temp, "(*%s)", out);
                 }
@@ -90,7 +91,7 @@ int gettoken(void) {
     void ungetch(int);
     char *p = token;
 
-    /* use current tokentype */
+    /* return the last tokentype without updating it */
     if (prevtoken == YES) {
         prevtoken = NO;
         return tokentype;
