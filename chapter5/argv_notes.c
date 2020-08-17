@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) { // won't raise error because array parameter 
 
 /*
 $ gcc scratch.c -o result.out
-$ ./result.out hello world
+$ ./result.out
 (*++argv)[0] = h
 *++(argv[0]) = e
 */
