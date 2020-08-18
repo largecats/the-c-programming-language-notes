@@ -16,3 +16,11 @@ int main() {
     print_variable(x);
     print_variable(y);
 }
+
+/*
+$ gcc chapter4/4.11.2/exercise_4-14/main.c -o chapter4/4.11.2/exercise_4-14/result.out
+
+$ chapter4/4.11.2/exercise_4-14/result.out
+x = 2
+y = 1
+*/

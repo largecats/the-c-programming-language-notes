@@ -3,7 +3,7 @@ Exercise 4-12. Adapt the ideas of printd to write a recursive version of itoa; t
 */
 
 #include <stdio.h>
-#include "../helper_functions.h"
+#include "../../../helper_functions.h"
 
 void itoa(int n, char s[]);
 
@@ -13,6 +13,13 @@ int main() {
     itoa(123045, s);
     print_string(s);
 }
+
+/*
+$ gcc chapter4/4.10/exercise_4-12/main.c helper_functions.c -o chapter4/4.10/exercise_4-12/result.out
+
+$ chapter4/4.10/exercise_4-12/result.out
+s = 123045
+*/
 
 void itoa(int n, char s[]) {
     static int i = 0;
