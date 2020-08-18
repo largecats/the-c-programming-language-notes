@@ -8,7 +8,7 @@
 void print_array(int arr[]);
 void print_float_array(double arr[]);
 void swap(char s[], int i, int j);
-void swap_pointer_version(void *v[], int i, int j);
+void swap_pointer_version(char *v[], int i, int j);
 int getch(void);
 void ungetch(int c);
 
