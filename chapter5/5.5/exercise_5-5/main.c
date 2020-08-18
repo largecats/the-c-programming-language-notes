@@ -3,7 +3,7 @@ Exercise 5-5. Write versions of the library functions strncpy, strncat, and strn
 */
 
 #include <stdio.h>
-#include "../helper_functions.h"
+#include "../../../helper_functions.h"
 
 /*
 char *strcpy(s,ct) copy string ct to string s, including ’\0’; return s.
@@ -20,22 +20,31 @@ int strncmp(cs,ct,n) compare at most n characters of string cs to string ct; ret
 if cs==ct, or >0 if cs>ct.
 */
 
-char *strncpy(char *s, char *t, int n);
-char *strncat(char *s, char *t, int n);
-int strncmp(char *s, char *t, int n);
+char *strncpy1(char *s, char *t, int n);
+char *strncat1(char *s, char *t, int n);
+int strncmp1(char *s, char *t, int n);
 
 int main() {
     char s[MAXLINE] = "hello ";
     char t[] = "Neo";
 
-    strncpy(s, t, 3);
+    strncpy1(s, t, 3); /* copy the first 3 characters in "Neo" to "hello" */
+    print_string(s); /* "Neolo */
+    strncat1(s, t, 3); /* concat the first 3 characters in "Neo" to "Neolo" */
     print_string(s);
-    strncat(s, t, 3);
-    print_string(s);
-    printf("%d", strncmp(s, t, 3));
+    printf("%d\n", strncmp1(s, t, 3)); /* compare the first 3 characters in "Neolo" with "Neo" */
 }
 
-char *strncpy(char *s, char *t, int n) {
+/*
+$ gcc chapter5/5.5/exercise_5-5/main.c helper_functions.c -o chapter5/5.5/exercise_5-5/result.out
+
+$ chapter5/5.5/exercise_5-5/result.out
+s = Neolo
+s = Neolo Neo
+0
+*/
+
+char *strncpy1(char *s, char *t, int n) {
     while (n > 0 && *t != '\0') {
         *s++ = *t++;
         n--;
@@ -48,7 +57,7 @@ char *strncpy(char *s, char *t, int n) {
     return s;
 }
 
-char *strncat(char *s, char *t, int n) {
+char *strncat1(char *s, char *t, int n) {
     while (*s++ != '\0') { /* find end of s */
         ;
     }
@@ -61,7 +70,7 @@ char *strncat(char *s, char *t, int n) {
     return s;
 }
 
-int strncmp(char *s, char *t, int n) {
+int strncmp1(char *s, char *t, int n) {
     for (; n > 0 && *s == *t; *s++, *t++, n--) {
         if (*s == '\0') {
             return 0;

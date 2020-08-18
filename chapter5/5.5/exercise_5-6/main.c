@@ -5,40 +5,52 @@ Exercise 5-6. Rewrite appropriate programs from earlier chapters and exercises w
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../helper_functions.h"
-#include "calc.h"
+#include "../../../helper_functions.h"
+// #include "calc.h"
 
-int getline(char *s, int lim);
-int atoi(char *s);
-void itoa(int n, char *s);
-void reverse(char *s);
-int strindex(char *s, char *t);
+int getline1(char *s, int lim);
+int atoi1(char *s);
+void itoa1(int n, char *s);
+void reverse1(char *s);
+int strindex1(char *s, char *t);
 
 int main() {
     /* getline */
     int l;
     char s0[MAXLINE];
-    while ((l = getline(s0, MAXLINE)) > 0) {
+    while ((l = getline1(s0, MAXLINE)) > 0) {
         print_string(s0);
     }
 
     /* atoi */
     char s1[] = "12345";
-    print_variable(atoi(s1));
+    print_variable(atoi1(s1));
 
     /* itoa */
     int n = 12345;
     char s2[MAXLINE];
-    itoa(n, s2);
+    itoa1(n, s2);
     print_string(s2);
 
     /* strindex */
     char s3[] = "hello Neo";
     char s4[] = "Neo";
-    print_variable(strindex(s3, s4));
+    print_variable(strindex1(s3, s4));
 }
 
-int getline(char *s, int lim) {
+/*
+$ gcc chapter5/5.5/exercise_5-6/main.c helper_functions.c -o chapter5/5.5/exercise_5-6/result.out
+
+$ chapter5/5.5/exercise_5-6/result.out
+hello
+s0 = hello
+
+atoi1(s1) = 12345
+s2 = 12345
+strindex1(s3, s4) = 6
+*/
+
+int getline1(char *s, int lim) {
     int c;
     char *original_s = s;
 
@@ -53,7 +65,7 @@ int getline(char *s, int lim) {
     return s - original_s;
 }
 
-int atoi(char *s) {
+int atoi1(char *s) {
     int i;
 
     i = 0;
@@ -63,7 +75,7 @@ int atoi(char *s) {
     return i;
 }
 
-void itoa(int n, char *s) {
+void itoa1(int n, char *s) {
     int sign;
     char *original_s;
 
@@ -77,10 +89,10 @@ void itoa(int n, char *s) {
         *s++ = '-';
     }
     *s = '\0';
-    reverse(original_s);
+    reverse1(original_s);
 }
 
-void reverse(char *s) {
+void reverse1(char *s) {
     char *t = s + strlen(s) - 1;
 
     for (; t > s; t--, s++) {
@@ -90,7 +102,7 @@ void reverse(char *s) {
     }
 }
 
-int strindex(char *s, char *t) {
+int strindex1(char *s, char *t) {
     char *original_s = s ;
     char *original_t = t;
 

@@ -4,7 +4,7 @@ Exercise 5-1. As written, getint treats a + or - not followed by a digit as a va
 
 #include <stdio.h>
 #include <ctype.h>
-#include "../helper_functions.h"
+#include "../../../helper_functions.h"
 
 int getint(int *pn);
 
@@ -19,6 +19,17 @@ int main() {
 
     print_array(arr);
 }
+
+/*
+$ gcc chapter5/5.2/exercise_5-1/main.c helper_functions.c -o chapter5/5.2/exercise_5-1/result.out
+
+$ chapter5/5.2/exercise_5-1/result.out
+123
+234
+345
+i = 3
+[123, 234, 345, ]
+*/
 
 int getint(int *pn) {
     int c, sign;
