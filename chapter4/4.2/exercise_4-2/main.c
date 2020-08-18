@@ -14,10 +14,17 @@ int isdigit(char c);
 int main() {
     char s[] = "123.45e-6";
 
-    printf("%f", atof(s));
+    printf("%.10f\n", atof(s));
 
     return 0;
 }
+
+/*
+$ gcc chapter4/4.2/exercise_4-2/main.c -lm -o chapter4/4.2/exercise_4-2/result.out
+
+$ chapter4/4.2/exercise_4-2/result.out
+0.0001234500
+*/
 
 double atof(char s[]) {
     double val, power;
