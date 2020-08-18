@@ -30,7 +30,7 @@ void swap(char s[], int i, int j) {
     s[j] = temp;
 }
 
-void swap_pointer_version(void *v[], int i, int j) {
+void swap_pointer_version(char *v[], int i, int j) {
     char *temp = v[i];
     v[i] = v[j];
     v[j] = temp;
