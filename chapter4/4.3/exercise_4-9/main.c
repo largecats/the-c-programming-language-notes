@@ -10,8 +10,6 @@ An unsigned char cannot hold EOF, since its range is 0 to 255 and EOF has value 
 This issue may be masked on some machines if they use signed char by default or do type conversion.
 */
 
-
-
 #include <stdio.h>
 #include<string.h>
 
@@ -26,6 +24,11 @@ Captured: -1
 */
 
 // char buf[BUFSIZE];
+/*
+buf =
+buf = -1
+Captured: -1
+*/
 
 int buf[BUFSIZE];
 /*
@@ -40,7 +43,7 @@ int getch(void);
 void ungetch(int c);
 void print_buf(void);
 
-main() {
+int main() {
     char c, d;
 
     while ((c=getch()) != EOF) {
@@ -52,6 +55,19 @@ main() {
     d = getch();
     printf("Captured: %d\n", d);
 }
+
+/*
+$ gcc chapter4/4.3/exercise_4-9/main.c -o chapter4/4.3/exercise_4-9/result.out
+
+$ chapter4/4.3/exercise_4-9/result.out
+hello
+hello
+bufp = 0
+buf =
+bufp = 1
+buf = -1
+Captured: -1
+*/
 
 int getch(void) { /* get character from buffer */
     return (bufp > 0)? buf[--bufp]: getchar();

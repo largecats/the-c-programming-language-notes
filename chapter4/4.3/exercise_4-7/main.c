@@ -3,7 +3,7 @@ Exercise 4-7. Write a routine ungets(s) that will push back an entire string ont
 */
 
 #include <stdio.h>
-#include<string.h>
+#include <string.h>
 
 #define BUFSIZE 100
 #define MAXLINE 100
@@ -14,18 +14,26 @@ int bufp = 0; /* next free position in buf */
 int getch(void);
 void ungetch(int c);
 void ungets(char s[]);
-int getline(char s[], int lim);
+int getline1(char s[], int lim);
 
-main() {
+int main() {
     int c;
     char s[MAXLINE];
 
-    getline(s, MAXLINE); /* read line into string s */
+    getline1(s, MAXLINE); /* read line into string s */
     ungets(s); /* put string into buffer */
     while ((c=getch()) != EOF) { /* read character from buffer one by one */
         putchar(c);
     }
 }
+
+/*
+$ gcc chapter4/4.3/exercise_4-7/main.c -o chapter4/4.3/exercise_4-7/result.out
+
+$ chapter4/4.3/exercise_4-7/result.out
+hello world
+hello world
+*/
 
 int getch(void) { /* get character from buffer */
     return (bufp > 0)? buf[--bufp]: getchar();
@@ -48,7 +56,7 @@ void ungets(char s[]) { /* push string into buffer */
     }
 }
 
-int getline(char s[], int lim) {
+int getline1(char s[], int lim) {
     int c, i;
 
     i = 0;

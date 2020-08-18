@@ -9,7 +9,7 @@ unnecessary. Revise the calculator to use this approach.
 #include "calc.h"
 
 /* reverse Polish calculator */
-main() {
+int main() {
     int type;
     double op2;
     char s[MAXOP];
