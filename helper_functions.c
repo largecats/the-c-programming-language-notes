@@ -19,7 +19,7 @@ void print_float_array(double arr[]) {
     i = 0;
     printf("[");
     while (arr[i] != '\0') {
-        printf("%.2f, ", arr[i++]);
+        printf("%.3f, ", arr[i++]);
     }
     printf("]\n");
 }
