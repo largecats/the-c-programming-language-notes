@@ -21,6 +21,7 @@ static char *allocp = allocbuf; /* pointer to the next free position, initialize
 char *alloc(int n);
 void afree(char *p);
 
+int getline1(char s[], int lim);
 int getline_pointer_version(char *, int);
 
 void print_char_with_visible_blanks(char c);

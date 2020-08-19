@@ -8,7 +8,7 @@ Exercise 5-6. Rewrite appropriate programs from earlier chapters and exercises w
 #include "../../../helper_functions.h"
 // #include "calc.h"
 
-int getline1(char *s, int lim);
+int getline2(char *s, int lim);
 int atoi1(char *s);
 void itoa1(int n, char *s);
 void reverse1(char *s);
@@ -18,7 +18,7 @@ int main() {
     /* getline */
     int l;
     char s0[MAXLINE];
-    while ((l = getline1(s0, MAXLINE)) > 0) {
+    while ((l = getline2(s0, MAXLINE)) > 0) {
         print_string(s0);
     }
 
@@ -50,7 +50,7 @@ s2 = 12345
 strindex1(s3, s4) = 6
 */
 
-int getline1(char *s, int lim) {
+int getline2(char *s, int lim) {
     int c;
     char *original_s = s;
 
