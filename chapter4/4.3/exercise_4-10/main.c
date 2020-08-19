@@ -50,7 +50,7 @@ int main() {
 }
 
 /*
-$ gcc chapter4/4.3/exercise_4-10/main.c chapter4/4.3/exercise_4-10/getop.c chapter4/4.3/exercise_4-10/stack.c -o chapter4/4.3/exercise_4-10/result.out
+$ gcc chapter4/4.3/exercise_4-10/main.c chapter4/4.3/exercise_4-10/getop.c chapter4/4.3/exercise_4-10/stack.c helper_functions.c -o chapter4/4.3/exercise_4-10/result.out
 
 $ chapter4/4.3/exercise_4-10/result.out
 1 1 +

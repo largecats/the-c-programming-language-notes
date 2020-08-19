@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "calc.h"
+#include "../../../helper_functions.h"
 
 #define MAXLINE 100
 char line[MAXLINE];
@@ -45,22 +46,6 @@ int getop(char s[]) {
         lp--;
     }
     return NUMBER;
-}
-
-int getline1(char s[], int lim) {
-    int c, i;
-
-    i = 0;
-    while (i<lim-1 && (c=getchar())!=EOF && c!='\n') {
-        s[i] = c;
-        i++;
-    }
-    if (c == '\n') {
-        s[i] = c;
-        i++;
-    }
-    s[i] = '\0';
-    return i;
 }
 
 void print_line(void) {

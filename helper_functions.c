@@ -72,6 +72,20 @@ void afree(char *p) {
     }
 }
 
+int getline1(char s[], int lim) {
+    int c, i;
+
+    for (i=0; i<lim-1 && (c=getchar())!=EOF && c!='\n'; i++) {
+        s[i] = c;
+    }
+    if (c == '\n') {
+        s[i] = c;
+        i++;
+    }
+    s[i] = '\0';
+    return i;
+}
+
 int getline_pointer_version(char *s, int lim) {
     int c;
     char *original_s = s;
@@ -95,7 +109,7 @@ void print_char_with_visible_blanks(char c) {
         printf("\\s");
     }
     else if (c == '\n') {
-        printf("\\n");
+        printf("\\n\n");
     }
     else {
         putchar(c);
