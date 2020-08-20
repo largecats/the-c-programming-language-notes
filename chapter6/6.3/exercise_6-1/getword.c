@@ -17,7 +17,38 @@ int getword(char *word, int lim) {
         *w++ = c;
     }
     if (!isalpha(c)) {
-        /* if the first non-space character is not a letter, terminate and return it */
+        /* if the first non-space character is not a letter */
+        if (c == '\"') {
+            /* skip string constant */
+            c = getch();
+            while (c != '\"') {
+                c = getch();
+            }
+        }
+        else if (c == '#') {
+            /* skip preprocessor */
+            c = getch();
+            while (c != '\n') {
+                c = getch();
+            }
+        }
+        else if (c == '/') {
+            /* skip comment */
+            c = getch();
+            while (c != '/') {
+                c = getch();
+            }
+        }
+        else {
+            /* skip underscore and anything else */
+            c = getch();
+            while (!isspace(c) && c != EOF) {
+                c = getch();
+            }
+        }
+        if (c != '\"' && c != '\n' && c != '/') {
+            ungetch(c);
+        }
         *w = '\0';
         return c;
     }
