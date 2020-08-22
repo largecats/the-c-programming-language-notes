@@ -31,6 +31,9 @@ struct key keytab[] = {
 /* #define NKEYS (sizeof keytab / sizeof(struct key)) */
 #define NKEYS (sizeof keytab / sizeof keytab[0])
 
+int getword(char *, int);
+int binsearch(char *, struct key *, int);
+
 /* count C keywords */
 int main() {
     int n;
