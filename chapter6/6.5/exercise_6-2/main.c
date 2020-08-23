@@ -5,19 +5,26 @@ identical in the first 6 characters, but different somewhere thereafter. Don’t
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include "header.h"
+#include "../../../helper_functions.h"
 
 #define MAXWORD 100
+#define N 6
+
 struct tnode *addtree(struct tnode *, char *);
-void add_to_llistArr(struct tnode *, struct lnode *, int);
-void print_llistArr(struct lnode *);
+struct llist * add_to_llists(struct tnode *, int);
+void print_llists(struct llist *);
 int getword(char *, int);
+void treeprint(struct tnode *p);
 
 /* word frequency count */
 int main(int argc, char *argv[]) {
     struct tnode *root;
-    struct lnode *identical_in_n; /* linked lists that store words that are identical in the first n charaters */
+    struct llist *identical_in_n; /* linked lists that store words that are identical in the first n charaters */
     char word[MAXWORD], c;
-    int n;
+    int n = N;
 
     /* add word to tree, skipping strings and comments */
     root = NULL;
@@ -39,15 +46,19 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    /* scan tree with root and add variable names that are identical in the first n characters to the array of linked lists */
-    add_to_llistArr(root, identical_in_n, n);
-    /* print the array of linked lists */
-    print_llistArr(identical_in_n);
+    // print_variable(n);
+
+    identical_in_n = NULL;
+    /* scan tree with root and add variable names that are identical in the first n characters the linked list of linked lists */
+    identical_in_n = add_to_llists(root, n);
+    treeprint(root);
+    /* print the linked lists */
+    print_llists(identical_in_n);
     return 0;
 }
 
 /*
-$ gcc chapter6/6.5/exercise_6-2/main.c  helper_functions.c -o chapter6/6.5/exercise_6-2/result.out
+$ gcc chapter6/6.5/exercise_6-2/main.c chapter6/6.5/exercise_6-2/getword.c chapter6/6.5/exercise_6-2/llist.c chapter6/6.5/exercise_6-2/tree.c helper_functions.c -o chapter6/6.5/exercise_6-2/result.out
 
 $ chapter6/6.5/exercise_6-2/result.out
 */
