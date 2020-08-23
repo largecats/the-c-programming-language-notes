@@ -62,16 +62,14 @@ $ gcc chapter6/6.3/exercise_6-1/main.c chapter6/6.3/exercise_6-1/search.c chapte
 $ chapter6/6.3/exercise_6-1/result.out
 #define MAXLEN 10
 word = #
-int i = 0; / * int * /
+int i = 0;
 word = int
 word = i
 word = =
 word = 0
-word = /
 int i_1 = 1;
 word = int
-word = i
-word = _ # note that the 1 following _ is skipped
+word = i_1
 word = =
 word = 1
 printf("i=%d", i); / * printf * /
