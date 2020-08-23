@@ -8,12 +8,14 @@ identical in the first 6 characters, but different somewhere thereafter. Don’t
 
 #define MAXWORD 100
 struct tnode *addtree(struct tnode *, char *);
-void print_similar_variables(struct tnode *, int n);
+void add_to_llistArr(struct tnode *, struct lnode *, int);
+void print_llistArr(struct lnode *);
 int getword(char *, int);
 
 /* word frequency count */
 int main(int argc, char *argv[]) {
     struct tnode *root;
+    struct lnode *identical_in_n; /* linked lists that store words that are identical in the first n charaters */
     char word[MAXWORD], c;
     int n;
 
@@ -37,8 +39,10 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    /* print similar variable names */
-    print_similar_variables(root, n);
+    /* scan tree with root and add variable names that are identical in the first n characters to the array of linked lists */
+    add_to_llistArr(root, identical_in_n, n);
+    /* print the array of linked lists */
+    print_llistArr(identical_in_n);
     return 0;
 }
 

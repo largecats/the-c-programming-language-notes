@@ -44,9 +44,9 @@ int getword(char *word, int lim) {
         *w = '\0';
         return c;
     }
-    /* continue reading the renamining characters in the word until meeting a character that is not a letter or number, which means that the word has ended */
+    /* continue reading the renamining characters in the word until meeting a character that is not a letter, number, or _, which means that the word has ended */
     for (; --lim > 0; w++) {
-        if (!isalnum(*w = getch())) {
+        if (!isalnum(*w = getch()) && *w != '_') {
             ungetch(*w); /* put it back */
             break; /* exit the for loop */
         }
