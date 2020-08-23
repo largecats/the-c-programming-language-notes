@@ -21,38 +21,44 @@ void treeprint(struct tnode *p);
 
 /* word frequency count */
 int main(int argc, char *argv[]) {
-    struct tnode *root;
-    struct llist *identical_in_n; /* linked lists that store words that are identical in the first n charaters */
-    char word[MAXWORD], c;
-    int n = N;
+    // struct tnode *root;
+    // struct llist *identical_in_n; /* linked lists that store words that are identical in the first n charaters */
+    // char word[MAXWORD], c;
+    // int n = N;
 
-    /* add word to tree, skipping strings and comments */
-    root = NULL;
-    while (getword(word, MAXWORD) != EOF) {
-        if (isalpha(word[0])) {
-            /* if word starts with letter, add it to tree */
-            root = addtree(root, word);
-        }
-    }
+    // /* add word to tree, skipping strings and comments */
+    // root = NULL;
+    // while (getword(word, MAXWORD) != EOF) {
+    //     if (isalpha(word[0])) {
+    //         /* if word starts with letter, add it to tree */
+    //         root = addtree(root, word);
+    //     }
+    // }
 
-    /* get n from command line */
-    while (--argc > 0 && (*++argv)[0] == '-') {
-        while (c = *++argv[0]) {
-            switch (c) {
-                case 'n':
-                    n = atoi(c);
-                    break;
-            }
-        }
-    }
+    // /* get n from command line */
+    // while (--argc > 0 && (*++argv)[0] == '-') {
+    //     while (c = *++argv[0]) {
+    //         switch (c) {
+    //             case 'n':
+    //                 n = atoi(c);
+    //                 break;
+    //         }
+    //     }
+    // }
 
     // print_variable(n);
 
-    identical_in_n = NULL;
-    /* scan tree with root and add variable names that are identical in the first n characters the linked list of linked lists */
-    identical_in_n = add_to_llists(root, n);
-    treeprint(root);
+    // identical_in_n = NULL;
+    // /* scan tree with root and add variable names that are identical in the first n characters the linked list of linked lists */
+    // identical_in_n = add_to_llists(root, n);
+    // treeprint(root);
     /* print the linked lists */
+    struct lnode head = {"head", NULL};
+    struct lnode *p;
+    p = &head;
+    struct llist *identical_in_n;
+    identical_in_n->head = p;
+    identical_in_n->next = NULL;
     print_llists(identical_in_n);
     return 0;
 }

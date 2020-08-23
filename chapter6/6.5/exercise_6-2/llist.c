@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "header.h"
+#include "../../../helper_functions.h"
 
 struct lnode *create_lnode(struct lnode *linkedNode, struct tnode *treeNode);
-void print_llists(struct llist *linkedList);
 
 /* add_to_llists: Traverse tree and add variable names that are identical in the first n characters to the linked lists. */
 struct llist *add_to_llists(struct tnode *root, int n) {
@@ -105,17 +105,17 @@ void print_llists(struct llist *linkedList) {
     if (linkedList == NULL) {
         return;
     }
-    while (linkedList->next != NULL) {
-        print_llist(linkedList->head);
+    while (linkedList != NULL) {
         linkedList = linkedList->next;
+        print_llist(linkedList->head);
     }
 }
 
 /* print_llist: print linked list starting from head */
 void print_llist(struct lnode *head) {
     struct lnode *currNode = head;
-    while (head->next != NULL) {
-        printf("%s", head->value);
-        head = head->next;
+    while (currNode != NULL) {
+        printf("%s", currNode->value);
+        currNode = currNode->next;
     }
 }
