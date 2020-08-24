@@ -54,15 +54,7 @@ $ gcc chapter6/6.5/exercise_6-2/main.c chapter6/6.5/exercise_6-2/parse_args.c ch
 
 $ chapter6/6.5/exercise_6-2/result.out -n 3
 n = 3
-aaa23 aaa34 ccc12 aaa12 aaa12 ccc
-newNode->value = aaa12
-aaa23
-newNode->value = aaa23
-aaa12 aaa23
-newNode->value = aaa34
-aaa12 aaa23
-newNode->value = ccc
-ccc12
+ccc12 aaa23 aaa34 aaa12 ccc aaa12
    2 aaa12
    1 aaa23
    1 aaa34
