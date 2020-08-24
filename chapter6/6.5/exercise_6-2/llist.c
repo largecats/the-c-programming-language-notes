@@ -9,11 +9,10 @@ struct lnode *lalloc(struct lnode *linkedNode, struct tnode *treeNode);
 /* add_to_llists: Traverse tree and add variable names that are identical in the first n characters to the linked lists. */
 struct llist *add_to_llists(struct tnode *root, int n) {
     struct llist *add_to_llists_helper(struct tnode *treeNode, struct llist *linkedList, int n);
+    struct tnode *currNode;
+    static struct llist *linkedList = NULL; /* points to the root of the tree */
 
     if (root != NULL) {
-        struct tnode *currNode;
-        static struct llist *linkedList = NULL; /* points to the root of the tree */
-
         /* traverse left subtree */
         add_to_llists(root->left, n);
 
@@ -74,11 +73,15 @@ struct llist *add_to_llists_helper(struct tnode *treeNode, struct llist *linkedL
     return linkedList;
 }
 
-/* add_to_llist: Add word in treeNode to linked list. */
+/* add_to_llist: Add word in treeNode to linked list starting with head. */
 void add_to_llist(struct lnode *head, struct tnode *treeNode) {
     struct lnode *currNode = head;
+    if (strcmp(currNode->value, treeNode->word) == 0) {
+        /* word is already in linked list */
+        return;
+    }
     while (currNode->next != NULL) {
-        if (strcmp(currNode->value, treeNode->word)) {
+        if (strcmp(currNode->value, treeNode->word) == 0) {
             /* word is already in linked list */
             return;
         }
@@ -106,6 +109,7 @@ void print_llists(struct llist *linkedList) {
         return;
     }
     while (linkedList != NULL) {
+        printf("%s", "printing linked list\n");
         print_llist(linkedList->head);
         putchar('\n');
         linkedList = linkedList->next;
