@@ -83,6 +83,7 @@ struct llist *traverse_tree(struct tnode *root, int n) {
 
 struct llist *add_to_llists(struct tnode *treeNode, struct llist *linkedList, int n) {
     if (linkedList == NULL) {
+        /* initialize linked lists */
         linkedList = llist_alloc(linkedList, treeNode);
         return linkedList;
     }
@@ -103,6 +104,7 @@ struct llist *add_to_llists(struct tnode *treeNode, struct llist *linkedList, in
             }
             currList = currList->next;
         }
+        /* insert new list in proper position */
         if (currList->next != NULL) {
             currList = currList->next;
         }
