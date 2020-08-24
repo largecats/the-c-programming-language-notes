@@ -4,7 +4,7 @@
 #include "header.h"
 #include "../../../helper_functions.h"
 
-struct lnode *create_lnode(struct lnode *linkedNode, struct tnode *treeNode);
+struct lnode *lalloc(struct lnode *linkedNode, struct tnode *treeNode);
 
 /* add_to_llists: Traverse tree and add variable names that are identical in the first n characters to the linked lists. */
 struct llist *add_to_llists(struct tnode *root, int n) {
@@ -61,7 +61,7 @@ struct llist *add_to_llists_helper(struct tnode *treeNode, struct llist *linkedL
         /* create new linked list in the array of linked list */
         linkedList = (struct llist *) malloc(sizeof(struct llist));
         linkedList->next = NULL;
-        linkedList->head = create_lnode(linkedList->head, treeNode);
+        linkedList->head = lalloc(linkedList->head, treeNode);
     }
     else if (strncmp(treeNode->word, linkedList->head->value, n) == 0) {
         /* if node word is identical with head of linked list, add it to the linked list. */
@@ -85,11 +85,11 @@ void add_to_llist(struct lnode *head, struct tnode *treeNode) {
         currNode = currNode->next;
     }
     /* if word is not in the linked list yet, create new linked node from treeNode*/
-    currNode->next = create_lnode(currNode->next, treeNode);
+    currNode->next = lalloc(currNode->next, treeNode);
 }
 
-/* create_lnode: create a linked node from treeNode */
-struct lnode *create_lnode(struct lnode *linkedNode, struct tnode *treeNode) {
+/* lalloc: create a linked node from treeNode */
+struct lnode *lalloc(struct lnode *linkedNode, struct tnode *treeNode) {
     linkedNode = (struct lnode *) malloc(sizeof(struct lnode));
     if (linkedNode != NULL) {
         linkedNode->value = treeNode->word;
@@ -106,8 +106,9 @@ void print_llists(struct llist *linkedList) {
         return;
     }
     while (linkedList != NULL) {
-        linkedList = linkedList->next;
         print_llist(linkedList->head);
+        putchar('\n');
+        linkedList = linkedList->next;
     }
 }
 
@@ -115,7 +116,7 @@ void print_llists(struct llist *linkedList) {
 void print_llist(struct lnode *head) {
     struct lnode *currNode = head;
     while (currNode != NULL) {
-        printf("%s", currNode->value);
+        printf("%s ", currNode->value);
         currNode = currNode->next;
     }
 }

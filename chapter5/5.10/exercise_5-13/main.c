@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
 
     n = 10;
     parse_args(argc, argv, &n);
+    // print_variable(n);
     if ((nlines = readlines(lineptr, MAXLINES, n)) >= 0) {
         tail(lineptr, nlines, n);
         return 0;
