@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "helper_functions.h"
 
 void print_array(int arr[]) {
@@ -114,4 +116,43 @@ void print_char_with_visible_blanks(char c) {
     else {
         putchar(c);
     }
+}
+
+int string_in_array(char val[], char *arr[], int len, int caseSensitive) {
+    int i;
+    // int len = sizeof(arr)/sizeof(char *); // doesn't work, always return 1
+    for (i = 0; i < len; i++) {
+        if (caseSensitive) {
+            if (strcmp(val, arr[i]) == 0) {
+                return 1;
+            }
+        }
+        else {
+            char s1[strlen(val)];
+            char s2[strlen(arr[i])];
+            to_lower(val, s1);
+            to_lower(arr[i], s2);
+            if (strcmp(s1, s2) == 0) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+void to_lower(char s[], char t[]) {
+    /* issues with pointers: https://stackoverflow.com/questions/2661766/how-do-i-lowercase-a-string-in-c  */
+    int i;
+    for (i=0; s[i]; i++) {
+        t[i] = tolower(s[i]);
+    }
+    t[i] = '\0';
+}
+
+void copy(char s[], char t[]) {
+    int i;
+    for (i=0; s[i]; i++) {
+        t[i] = s[i];
+    }
+    t[i] = '\0';
 }
