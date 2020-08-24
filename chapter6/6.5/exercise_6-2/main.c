@@ -15,7 +15,7 @@ identical in the first 6 characters, but different somewhere thereafter. Don’t
 
 void parse_args(int argc, char *argv[], int *np);
 struct tnode *addtree(struct tnode *, char *);
-struct llist * add_to_llists(struct tnode *, int);
+struct llist * traverse_tree(struct tnode *, int);
 void print_llists(struct llist *);
 int getword(char *, int);
 void treeprint(struct tnode *p);
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 
     identical_in_n = NULL;
     /* scan tree with root and add variable names that are identical in the first n characters the linked list of linked lists */
-    identical_in_n = add_to_llists(root, n);
+    identical_in_n = traverse_tree(root, n);
     treeprint(root);
     /* print the linked lists */
     print_llists(identical_in_n);
@@ -53,5 +53,21 @@ int main(int argc, char *argv[]) {
 $ gcc chapter6/6.5/exercise_6-2/main.c chapter6/6.5/exercise_6-2/parse_args.c chapter6/6.5/exercise_6-2/getword.c chapter6/6.5/exercise_6-2/llist.c chapter6/6.5/exercise_6-2/tree.c helper_functions.c -o chapter6/6.5/exercise_6-2/result.out
 
 $ chapter6/6.5/exercise_6-2/result.out -n 3
-aaa12 bbb23 aaa23 ccc ccc12
+n = 3
+aaa23 aaa34 ccc12 aaa12 aaa12 ccc
+newNode->value = aaa12
+aaa23
+newNode->value = aaa23
+aaa12 aaa23
+newNode->value = aaa34
+aaa12 aaa23
+newNode->value = ccc
+ccc12
+   2 aaa12
+   1 aaa23
+   1 aaa34
+   1 ccc
+   1 ccc12
+aaa12 aaa23 aaa34
+ccc ccc12
 */

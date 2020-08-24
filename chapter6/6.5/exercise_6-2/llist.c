@@ -4,17 +4,23 @@
 #include "header.h"
 #include "../../../helper_functions.h"
 
-struct lnode *lalloc(struct lnode *linkedNode, struct tnode *treeNode);
+struct llist *add_to_llists(struct tnode *treeNode, struct llist *linkedList, int n);
+void add_to_llist(struct llist *linkedList, struct tnode *treeNode);
+void insert_llist(struct lnode *newNode, struct llist *linkedList);
+struct llist *llist_alloc(struct llist *linkedList, struct tnode *treeNode);
+struct llist *llist_alloc(struct llist *linkedList, struct tnode *treeNode);
+struct lnode *lnode_alloc(struct lnode *linkedNode, struct tnode *treeNode);
+void print_llist(struct lnode *head);
 
 /* add_to_llists: Traverse tree and add variable names that are identical in the first n characters to the linked lists. */
-struct llist *add_to_llists(struct tnode *root, int n) {
-    struct llist *add_to_llists_helper(struct tnode *treeNode, struct llist *linkedList, int n);
+struct llist *traverse_tree(struct tnode *root, int n) {
     struct tnode *currNode;
-    static struct llist *linkedList = NULL; /* points to the root of the tree */
+    static struct llist *linkedList = NULL; /* points to the root of the tree, preserved across function calls */
 
     if (root != NULL) {
+        // print_string(root->word);
         /* traverse left subtree */
-        add_to_llists(root->left, n);
+        traverse_tree(root->left, n);
 
         /* process current node */
         /* find the closest node in the left subtree, i.e., the rightmost child in the left subtree */
@@ -25,8 +31,8 @@ struct llist *add_to_llists(struct tnode *root, int n) {
             }
             if (strlen(currNode->word) >= n && strncmp(currNode->word, root->word, n) == 0) {
                 /* if currNode is identical to root in the first n characters, add both to the linked list starting with head */
-                linkedList = add_to_llists_helper(root, linkedList, n);
-                add_to_llists_helper(currNode, linkedList, n);
+                linkedList = add_to_llists(root, linkedList, n);
+                add_to_llists(currNode, linkedList, n);
             }
         }
         /* find the closest node in the right subtree, i.e., the leftmost child in the right subtree */
@@ -37,13 +43,13 @@ struct llist *add_to_llists(struct tnode *root, int n) {
             }
             if (strlen(currNode->word) >= n && strncmp(currNode->word, root->word, n) == 0) {
                 /* if currNode is identical to root in the first n characters, add both to the linked list starting with head */
-                linkedList = add_to_llists_helper(root, linkedList, n);
-                add_to_llists_helper(currNode, linkedList, n);
+                linkedList = add_to_llists(root, linkedList, n);
+                add_to_llists(currNode, linkedList, n);
             }
         }
 
         /* traverse right subtree */
-        add_to_llists(root->right, n);
+        traverse_tree(root->right, n);
 
         return linkedList;
     }
@@ -52,48 +58,121 @@ struct llist *add_to_llists(struct tnode *root, int n) {
     }
 }
 
-/* add_to_llists_helper: add word in treeNode to the linked lists. */
-struct llist *add_to_llists_helper(struct tnode *treeNode, struct llist *linkedList, int n) {
-    void add_to_llist(struct lnode *head, struct tnode *treeNode);
+/* add_to_llists: add word in treeNode to sorted linked lists. */
+struct llist *add_to_llists(struct tnode *treeNode, struct llist *linkedList, int n) {
+    // void add_to_llist(struct lnode *head, struct tnode *treeNode);
+    void add_to_llist(struct llist *linkedList, struct tnode *treeNode);
+    // print_string(treeNode->word);
 
     if (linkedList == NULL) {
         /* create new linked list in the array of linked list */
-        linkedList = (struct llist *) malloc(sizeof(struct llist));
-        linkedList->next = NULL;
-        linkedList->head = lalloc(linkedList->head, treeNode);
+        linkedList = llist_alloc(linkedList, treeNode);
     }
     else if (strncmp(treeNode->word, linkedList->head->value, n) == 0) {
-        /* if node word is identical with head of linked list, add it to the linked list. */
-        add_to_llist(linkedList->head, treeNode);
+        /* if node word is identical with head of linked list in the first n characters, add it to the linked list. */
+        // add_to_llist(linkedList->head, treeNode);
+        add_to_llist(linkedList, treeNode);
     }
     else {
         /* proceed to check the next linked list */
-        linkedList->next = add_to_llists_helper(treeNode, linkedList->next, n);
+        linkedList->next = add_to_llists(treeNode, linkedList->next, n);
     }
     return linkedList;
 }
 
-/* add_to_llist: Add word in treeNode to linked list starting with head. */
-void add_to_llist(struct lnode *head, struct tnode *treeNode) {
-    struct lnode *currNode = head;
-    // print_string(treeNode->word);
-    if (strcmp(currNode->value, treeNode->word) == 0) {
-        /* word is already in linked list */
-        return;
+// struct llist *add_to_llists(struct tnode *treeNode, struct llist *linkedList, int n) {
+//     struct llist *newList = llist_alloc(linkedList, treeNode);
+
+//     if (linkedList == NULL) {
+//         ;
+//     }
+//     else {
+//         /* find where to insert the new list, or add to existing list */
+//         while (linkedList->next != NULL && strcmp(treeNode->word, linkedList->next->head->value) <= 0) {
+//             if (strncmp(treeNode->word, linkedList->head->value, n) == 0) {
+//                 /* add to existing list */
+//                 add_to_llist(linkedList, treeNode);
+//                 return linkedList;
+//             }
+//             linkedList = linkedList->next;
+//         }
+//         newList->next = linkedList->next;
+//         linkedList->next = newList;
+//     }
+//     return newList;
+// }
+
+struct llist *llist_alloc(struct llist *linkedList, struct tnode *treeNode) {
+    linkedList = (struct llist *) malloc(sizeof(struct llist));
+    if (linkedList != NULL) {
+        /* initialize linked list */
+        linkedList->next = NULL;
+        linkedList->head = lnode_alloc(linkedList->head, treeNode);
     }
-    while (currNode->next != NULL) {
-        if (strcmp(currNode->value, treeNode->word) == 0) {
+    return linkedList;
+}
+
+/* add_to_llist: Add word in treeNode to sorted linked list starting with head. */
+void add_to_llist(struct llist *linkedList, struct tnode *treeNode) {
+    struct lnode *newNode = lnode_alloc(newNode, treeNode);
+    insert_llist(newNode, linkedList);
+}
+
+/* insert_llist: insert newNode into sorted linked list */
+// void insert_llist(struct lnode *newNode, struct llist *linkedList) {
+//     struct lnode *currNode = linkedList->head;
+    
+//     if (strcmp(newNode->value, currNode->value) == 0) {
+//         /* word is already in linked list */
+//         return ;
+//     }
+//     while (currNode->next != NULL) {
+//         if (strcmp(newNode->value, currNode->value) == 0) {
+//             /* word is already in linked list */
+//             return ;
+//         }
+//         currNode = currNode->next;
+//     }
+//     /* if word is not in the linked list yet, create new linked node from treeNode*/
+//     currNode->next = newNode;
+    
+// }
+
+void insert_llist(struct lnode *newNode, struct llist *linkedList) {
+    struct lnode *currNode = linkedList->head;
+    print_string(newNode->value);
+    print_llist(linkedList->head);
+
+    if (currNode == NULL || strcmp(newNode->value, currNode->value) <= 0) {
+        if (strcmp(newNode->value, currNode->value) == 0) {
             /* word is already in linked list */
             return;
         }
-        currNode = currNode->next;
+        /* if head is null or newNode->value is less than head->value, insert in front of current head */
+        newNode->next = linkedList->head;
+        linkedList->head = newNode;
     }
-    /* if word is not in the linked list yet, create new linked node from treeNode*/
-    currNode->next = lalloc(currNode->next, treeNode);
+    else {
+        /* else, insert in proper position */
+        while (currNode->next != NULL && strcmp(newNode->value, currNode->next->value) <= 0) {
+            /* find the rightmost node whose value is no greater than newNode->value; use <= to allow for the equality check below */
+            if (strcmp(newNode->value, currNode->next->value) == 0) {
+                /* word is already in linked list */
+                return;
+            }
+            currNode = currNode->next;
+        }
+        if (currNode->next != NULL) {
+            /* because we used <= instead of < in the while loop, need to check currNode->next separately again */
+            currNode = currNode->next;
+        }
+        newNode->next = currNode->next;
+        currNode->next = newNode;
+    }
 }
 
-/* lalloc: create a linked node from treeNode */
-struct lnode *lalloc(struct lnode *linkedNode, struct tnode *treeNode) {
+/* lnode_alloc: create a linked node from treeNode */
+struct lnode *lnode_alloc(struct lnode *linkedNode, struct tnode *treeNode) {
     linkedNode = (struct lnode *) malloc(sizeof(struct lnode));
     if (linkedNode != NULL) {
         linkedNode->value = treeNode->word;
@@ -104,15 +183,12 @@ struct lnode *lalloc(struct lnode *linkedNode, struct tnode *treeNode) {
 
 /* print_llists: print linked lists */
 void print_llists(struct llist *linkedList) {
-    void print_llist(struct lnode *head);
-
     if (linkedList == NULL) {
         return;
     }
     while (linkedList != NULL) {
         // printf("%s", "printing linked list\n");
         print_llist(linkedList->head);
-        putchar('\n');
         linkedList = linkedList->next;
     }
 }
@@ -124,4 +200,5 @@ void print_llist(struct lnode *head) {
         printf("%s ", currNode->value);
         currNode = currNode->next;
     }
+    putchar('\n');
 }
