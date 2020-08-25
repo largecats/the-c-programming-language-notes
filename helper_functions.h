@@ -28,4 +28,5 @@ void print_char_with_visible_blanks(char c);
 
 int string_in_array(char val[], char *arr[], int len, int caseSensitive);
 void to_lower(char s[], char t[]);
+// char *to_lower(char s[]);
 void copy(char s[], char t[]);

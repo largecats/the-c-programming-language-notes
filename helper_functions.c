@@ -132,6 +132,10 @@ int string_in_array(char val[], char *arr[], int len, int caseSensitive) {
             char s2[strlen(arr[i])];
             to_lower(val, s1);
             to_lower(arr[i], s2);
+            // char *s1 = to_lower(val); /* will raise segmentation fault */
+            // char *s2 = to_lower(arr[i]);
+            print_string(s1);
+            print_string(s2);
             if (strcmp(s1, s2) == 0) {
                 return 1;
             }
@@ -148,6 +152,18 @@ void to_lower(char s[], char t[]) {
     }
     t[i] = '\0';
 }
+
+// char *to_lower(char s[]) {
+//     char *t;
+//     int i;
+//     for (i=0; s[i]; i++) {
+//         *t++ = tolower(s[i]);
+//     }
+//     for (; i>0; i--) { /* reverse the traversal to point to start of t */
+//         t--;
+//     }
+//     return t;
+// }
 
 void copy(char s[], char t[]) {
     int i;
