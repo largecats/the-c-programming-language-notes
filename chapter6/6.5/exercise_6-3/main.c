@@ -23,7 +23,7 @@ void treeprint(struct tnode *p);
 
 int main() {
     struct tnode *root;
-    char word[MAXWORD], c;
+    char word[MAXWORD];
     int currLineNumber;
 
     /* add word to tree, skipping strings and comments */
