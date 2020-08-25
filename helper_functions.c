@@ -134,8 +134,6 @@ int string_in_array(char val[], char *arr[], int len, int caseSensitive) {
             to_lower(arr[i], s2);
             // char *s1 = to_lower(val); /* will raise segmentation fault */
             // char *s2 = to_lower(arr[i]);
-            print_string(s1);
-            print_string(s2);
             if (strcmp(s1, s2) == 0) {
                 return 1;
             }
@@ -171,4 +169,15 @@ void copy(char s[], char t[]) {
         t[i] = s[i];
     }
     t[i] = '\0';
+}
+
+/* strdup: make a duplicate of s */
+char *strdup1 (char *s) {
+    char *p;
+
+    p = (char *) malloc(strlen(s)+1); /* +1 for '\0' */
+    if (p != NULL) { /* if there is space */
+        strcpy(p, s);
+    }
+    return p;
 }
