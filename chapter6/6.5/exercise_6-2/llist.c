@@ -13,7 +13,7 @@ struct lnode *lnode_alloc(struct lnode *linkedNode, struct tnode *treeNode);
 void print_llist(struct lnode *head);
 void print_llists(struct llist *linkedList);
 
-/* add_to_llists: Traverse tree and add variable names that are identical in the first n characters to the linked lists. */
+/* traverse_tree: Traverse tree and add variable names that are identical in the first n characters to the linked lists. */
 struct llist *traverse_tree(struct tnode *root, int n) {
     struct tnode *currNode;
     static struct llist *linkedList = NULL; /* points to the root of the tree, preserved across function calls */
@@ -125,7 +125,7 @@ struct llist *llist_alloc(struct llist *linkedList, struct tnode *treeNode) {
     return linkedList;
 }
 
-/* add_to_llist: Add word in treeNode to sorted linked list starting with head. */
+/* add_to_llist: Add word in treeNode to sorted linked list. */
 void add_to_llist(struct llist *linkedList, struct tnode *treeNode) {
     struct lnode *newNode = lnode_alloc(newNode, treeNode);
     insert_llist(newNode, linkedList);

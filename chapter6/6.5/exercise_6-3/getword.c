@@ -3,13 +3,16 @@
 #include "../../../helper_functions.h"
 
 /* getword: get next word or character from input */
-int getword(char *word, int lim) {
+int getword(char *word, int *currLineNumber, int lim) {
     int c, getch(void);
     void ungetch(int);
     char *w = word; /* pointer to pointer to char, i.e., pointer to string */
 
     while (isspace(c = getch())) {
-        ; /* skip spaces */
+        /* skip spaces */
+        if (c == '\n') {
+            (*currLineNumber)++;
+        }
     }
     /* check the first non-space characer */
     if (c != EOF) {

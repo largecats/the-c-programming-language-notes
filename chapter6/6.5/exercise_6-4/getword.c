@@ -9,7 +9,8 @@ int getword(char *word, int lim) {
     char *w = word; /* pointer to pointer to char, i.e., pointer to string */
 
     while (isspace(c = getch())) {
-        ; /* skip spaces */
+        /* skip spaces */
+        ;
     }
     /* check the first non-space characer */
     if (c != EOF) {
