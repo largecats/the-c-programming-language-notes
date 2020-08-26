@@ -2,39 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "../../helper_functions.h"
-
-struct nlist {
-    /* struct for table entry */
-    struct nlist *next; /* next entry in the chain */
-    char *name; /* defined name */
-    char *defn; /* replacement text */
-};
-
-#define HASHSIZE 101
-
-static struct nlist *hashtab[HASHSIZE]; /* pointer table */
-
-unsigned hash(char *s);
-struct nlist *lookup(char *s);
-struct nlist *install(char *name, char *defn);
-void print_hashtab(struct nlist *hashtab[]);
-
-int main() {
-    install("MAXLEN", "100");
-    install("IN", "1");
-    print_hashtab(hashtab);
-}
-
-/*
-$ gcc chapter6/6.6/table_lookup.c helper_functions.c -o chapter6/6.6/result.out
-
-$ chapter6/6.6/result.out
-np->name = IN
-np->defn = 1
-np->name = MAXLEN
-np->defn = 100
-*/
+#include "header.h"
+#include "../../../helper_functions.h"
 
 /* hash: compute hash value for string s */
 unsigned hash(char *s) {
@@ -58,8 +27,6 @@ struct nlist *lookup(char *s) {
         return NULL; /* not found */
     }
 }
-
-char *strdup1(char *);
 
 /* install: put (name, defn) in hashtab */
 struct nlist *install(char *name, char *defn) {
@@ -89,12 +56,27 @@ struct nlist *install(char *name, char *defn) {
     return np;
 }
 
-/* print_hashtab: print all (name, defn) entries in hashtab */
-void print_hashtab(struct nlist *hashtab[]) {
-    for (int i=0; i < HASHSIZE; i++) {
-        for (struct nlist *np = hashtab[i]; np != NULL; np = np->next) {
-            print_string(np->name);
-            print_string(np->defn);
+/* undef: remove a name and definition from hashtab. */
+void undef(char *name) {
+    unsigned hashval = hash(name);
+    struct nlist *head = hashtab[hashval];
+    if (strcmp(name, head->name) == 0) {
+        /* unlink found block */
+        hashtab[hashval] = head->next; /* head = head->next will raise segmentation fault */
+        free((void *) head->name);
+        free((void *) head->defn);
+    }
+    else {
+        struct nlist *np = hashtab[hash(name)];
+        /* lok for s in the chain with hash value = hash(s) */
+        for (; np->next != NULL; np = np->next) {
+            if (strcmp(name, np->next->name) == 0) {
+                /* unlink found block */
+                np->next = np->next->next;
+                free((void *) np->next->name);
+                free((void *) np->next->defn);
+            }
         }
     }
+    
 }

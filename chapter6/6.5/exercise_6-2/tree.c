@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "header.h"
+#include "../../../helper_functions.h"
 
 struct tnode *talloc(void);
-char *strdup1(char *);
 
 /* addtree: add a node with word=w, at or below the tree node pointed to by p */
 struct tnode *addtree(struct tnode *p, char *w) {
@@ -40,15 +40,4 @@ void treeprint(struct tnode *p) {
 /* talloc: make a tnode */
 struct tnode *talloc(void) {
     return (struct node *) malloc(sizeof(struct tnode));
-}
-
-/* strdup: make a duplicate of s */
-char *strdup1 (char *s) {
-    char *p;
-
-    p = (char *) malloc(strlen(s)+1); /* +1 for '\0' */
-    if (p != NULL) { /* if there is space */
-        strcpy(p, s);
-    }
-    return p;
 }

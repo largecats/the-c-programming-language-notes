@@ -40,7 +40,7 @@ int main() {
     char word[MAXWORD]; /* to store the read words */
 
     while (getword(word, MAXWORD) != EOF) {
-        print_string(word);
+        // print_string(word);
         if (isalpha(word[0])) {
             if ((n = binsearch(word, keytab, NKEYS)) >= 0) {
                 /* if word is in keytab, increment its count */
@@ -61,23 +61,10 @@ $ gcc chapter6/6.3/exercise_6-1/main.c chapter6/6.3/exercise_6-1/search.c chapte
 
 $ chapter6/6.3/exercise_6-1/result.out
 #define MAXLEN 10
-word = #
 int i = 0;
-word = int
-word = i
-word = =
-word = 0
 int i_1 = 1;
-word = int
-word = i_1
-word = =
-word = 1
 printf("i=%d", i); / * printf * /
-word = printf
-word = (
-word = i
-word = )
-word = /
-   2 int
+int y = 1; // int
+   3 int
    1 printf
 */

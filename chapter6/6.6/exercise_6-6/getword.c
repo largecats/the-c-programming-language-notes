@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "header.h"
+#include "../../../helper_functions.h"
 
 /* getword: get next word or character from input */
 int getword(char *word, int lim) {
@@ -16,19 +17,12 @@ int getword(char *word, int lim) {
         /* if the first non-space character is not EOF, store in *w */
         *w++ = c;
     }
-    if (!isalpha(c)) {
-        /* if the first non-space character is not a letter */
+    if (!isalnum(c) && c != '#') {
+        /* if the first non-space character is not a letter, terminate and return it */
         if (c == '\"') {
             /* skip string constant */
             c = getch();
             while (c != '\"') {
-                c = getch();
-            }
-        }
-        else if (c == '#') {
-            /* skip preprocessor */
-            c = getch();
-            while (c != '\n') {
                 c = getch();
             }
         }
@@ -57,9 +51,10 @@ int getword(char *word, int lim) {
         *w = '\0';
         return c;
     }
-    /* continue reading the renamining characters in the word until meeting a character that is not a letter, number, or _, which means that the word has ended */
+    /* continue reading the renamining characters in the word until meeting a character that is not a letter or number, or space, which means that the word has ended */
     for (; --lim > 0; w++) {
-        if (!isalnum(*w = getch()) && *w != '_') {
+        // print_string(w);
+        if (!isalnum(*w = getch()) && *w != '#') {
             ungetch(*w); /* put it back */
             break; /* exit the for loop */
         }
