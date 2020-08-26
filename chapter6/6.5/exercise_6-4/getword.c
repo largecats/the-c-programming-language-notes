@@ -4,7 +4,7 @@
 
 /* getword: get next word or character from input */
 int getword(char *word, int lim) {
-    int c, getch(void);
+    int c, d, getch(void);
     void ungetch(int);
     char *w = word; /* pointer to pointer to char, i.e., pointer to string */
 
@@ -28,10 +28,15 @@ int getword(char *word, int lim) {
         }
         else if (c == '/') {
             /* skip comment */
-            c = getch();
-            while (c != '/') {
-                c = getch();
+            if ((c=getch()) == '/') { /*single comment*/
+                for(c=getch(); c!= '\n'; c=getch()) 
+                    ;
             }
+            else if (c == '*') { /*mutiline comment*/
+                for(c=getch(),d=getch(); c!= '*' && d!= '/'; c=getch(), d=getch()) 
+                    ungetch(d);
+            }
+            else ungetch(c);
         }
         else {
             /* skip underscore and anything else */

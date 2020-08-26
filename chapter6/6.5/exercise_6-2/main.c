@@ -24,7 +24,7 @@ void treeprint(struct tnode *p);
 int main(int argc, char *argv[]) {
     struct tnode *root;
     struct llist *identical_in_n; /* linked lists that store words that are identical in the first n charaters */
-    char word[MAXWORD], c;
+    char word[MAXWORD];
     int n = N;
 
     /* parse command line argument */
