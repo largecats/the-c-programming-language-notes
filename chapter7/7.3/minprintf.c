@@ -38,7 +38,7 @@ void minprintf(char *fmt, ...) {
         }
         switch (*++p) {
             case 'd':
-                ival = va_arg(ap, int);
+                ival = va_arg(ap, int); /* get one argument and let ap point to the next */
                 printf("%d", ival);
                 break;
             case 'f':
