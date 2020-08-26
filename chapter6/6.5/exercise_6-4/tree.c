@@ -41,5 +41,5 @@ void treeprint(struct tnode *p) {
 
 /* talloc: make a tnode */
 struct tnode *talloc(void) {
-    return (struct node *) malloc(sizeof(struct tnode));
+    return (struct tnode *) malloc(sizeof(struct tnode));
 }
