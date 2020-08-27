@@ -46,9 +46,11 @@ void minprintf(char *fmt, ...) {
                 printf("%f", dval);
                 break;
             case 's':
-                for (sval = va_arg(ap, char *); *sval; sval++) {
-                    putchar(*sval);
-                }
+                // for (sval = va_arg(ap, char *); *sval; sval++) {
+                //     putchar(*sval);
+                // }
+                sval = va_arg(ap, char *);
+                printf("%s", sval);
                 break;
             default:
                 putchar(*p);
