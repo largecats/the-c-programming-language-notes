@@ -56,3 +56,11 @@ int main() {
     }
     return 0;
 }
+
+/*
+$ gcc chapter4/4.3/main.c chapter4/4.3/getch.c chapter4/4.3/getop.c chapter4/4.3/stack.c -o chapter4/4.3/result.out
+
+$ chapter4/4.3/result.out
+1 2 - 4 5 + *
+        -9
+*/

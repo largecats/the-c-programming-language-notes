@@ -4,7 +4,8 @@ int main() {
     double sum, v;
 
     sum = 0;
-    while (scanf("%lf", &v) == 1) {
+    // while (scanf("%lf", &v) == 1) {
+    while (scanf("%lf", &v) != EOF) { // same behaviour as above
         /* as long as scanf reads one successfully matched and assigned input item */
         printf("\t%.2f\n", sum += v);
     }
