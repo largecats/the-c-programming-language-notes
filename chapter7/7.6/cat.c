@@ -1,11 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 #include "../../helper_functions.h"
 
-/* cat: concatenate files, version 1 */
+/* cat: concatenate files, version 2 */
 int main(int argc, char *argv[]) {
     FILE *fp;
     void filecopy(FILE *, FILE *);
+    char *prog = argv[0]; /* get program name to print along with error */
 
     if (argc == 1) { /* no args, copy standard input */
         filecopy(stdin, stdout);
@@ -13,8 +15,8 @@ int main(int argc, char *argv[]) {
     else {
         while (--argc > 0) {
             if ((fp = fopen(*++argv, "r")) == NULL) {
-                printf("cat: failed to open %s with errno %d\n", *argv, errno);
-                return 1;
+                fprintf(stderr, "%s: can't open %s\n", prog, *argv); /* print error in stderr */
+                exit(1);
             }
             else {
                 filecopy(fp, stdout); /* print file to stdout */
@@ -22,7 +24,11 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-    return 0;
+    if (ferror(stdout)) { /* if there's any error in the stdout stream, write error to stderr */
+        fprintf(stderr, "%s: error writing stdout\n", prog);
+        exit(2);
+    }
+    exit(0);
 }
 
 /* filecopy: copy file ifp to file ofp */
@@ -35,8 +41,11 @@ void filecopy(FILE *ifp, FILE *ofp) {
 }
 
 /*
-$ gcc chapter7/7.5/cat.c -o chapter7/7.5/result.out
+$ gcc chapter7/7.6/cat.c -o chapter7/7.6/result.out
 
-$ chapter7/7.5/result.out chpater7/7.5/hello.txt // the argument needs to be a subdirectory in the directory from which the program is run, e.g., absolute path starting from /mnt/c/... or hello.txt doesn't work
+$ chapter7/7.6/result.out chpater7/7.6/hello.txt
 hello hello
+
+$ chapter7/7.6/result.out chpater7/7.6/hello1.txt
+chapter7/7.6/result.out: can't open chapter7/7.6/hello1.txt
 */
