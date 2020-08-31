@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <errno.h>
 #include "../../helper_functions.h"
 
 /* cat: concatenate files, version 1 */
@@ -12,8 +13,7 @@ int main(int argc, char *argv[]) {
     else {
         while (--argc > 0) {
             if ((fp = fopen(*++argv, "r")) == NULL) {
-                print_string(*argv);
-                printf("cat: failed to open %s\n", *argv);
+                printf("cat: failed to open %s with errno %d\n", *argv, errno);
                 return 1;
             }
             else {
@@ -37,5 +37,6 @@ void filecopy(FILE *ifp, FILE *ofp) {
 /*
 $ gcc chapter7/7.5/cat.c -o chapter7/7.5/result.out
 
-$ chapter7/7.5/result.out "/mnt/c/users/xiaolf/fun/languages/c/the-c-programming-language-notes/chpater7/7.5/hello.txt“
+$ chapter7/7.5/result.out chpater7/7.5/hello.txt // the argument needs to be a subdirectory in the directory from which the program is run, e.g., /mnt/c/... or hello.txt doesn't work
+hello hello
 */
