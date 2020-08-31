@@ -43,9 +43,15 @@ void filecopy(FILE *ifp, FILE *ofp) {
 /*
 $ gcc chapter7/7.6/cat.c -o chapter7/7.6/result.out
 
-$ chapter7/7.6/result.out chpater7/7.6/hello.txt
+$ chapter7/7.6/result.out
+hello
+hello
+knock knock
+knock knock
+
+$ chapter7/7.6/result.out chapter7/7.6/hello.txt
 hello hello
 
-$ chapter7/7.6/result.out chpater7/7.6/hello1.txt
+$ chapter7/7.6/result.out chapter7/7.6/hello1.txt
 chapter7/7.6/result.out: can't open chapter7/7.6/hello1.txt
 */
