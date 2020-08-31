@@ -4,19 +4,21 @@ count for each file.
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define MAXLINE 100
 #define LINES_PER_PAGE 10
 
-void print_file(char *filename);
+void print_file(char *prog, char *filename);
 void start_page(void);
 void end_page(int pageNo);
 
 int main(int argc, char *argv[]) {
     int i = 0;
+    char *prog = argv[0];
 
     while (--argc > 0) {
-        print_file(*++argv);
+        print_file(prog, *++argv);
     }
 }
 
@@ -58,12 +60,19 @@ Page 2
 park supports standalone (native Spark cluster, where you can launch a cluster either manually or use the launch scripts provided by the install package. It is also possible to run these daemons on a single machine for testing), Hadoop YARN, Apache Mesos or Kubernetes. [11] For distributed storage, Spark can interface with a wide variety, including Alluxio, Hadoop Distributed File System (HDFS),[12] MapR File System (MapR-FS),[13] Cassandra,[14] OpenStack Swift, Amazon S3, Kudu, Lustre file system,[15] or a custom solution can be implemented. Spark also supports a pseudo-distributed local mode, usually used only for development or testing purposes, where distributed storage is not required and the local file system can be used instead; in such a scenario, Spark is run on a single machine with one executor per CPU core.
 
 Page 3
+
+$ chapter7/7.7/exercise_7-8/result.out chapter7/7.7/exercise_7-8/file.txt
+chapter7/7.7/exercise_7-8/result.out: can't open chapter7/7.7/exercise_7-8/file.txt
 */
 
-void print_file(char *filename) {
+void print_file(char *prog, char *filename) {
     char line[MAXLINE];
     int lineNo = 1, pageNo = 1;
-    FILE *fp = fopen(filename, "r");
+    FILE *fp;
+    if ((fp = fopen(filename, "r")) == NULL) {
+        fprintf(stderr, "%s: can't open %s\n", prog, filename);
+        exit(1);
+    }
     start_page();
     printf("Title: %s\n\n", filename);
     while (fgets(line, MAXLINE, fp) != NULL) {
