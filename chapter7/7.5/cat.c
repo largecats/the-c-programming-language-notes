@@ -37,6 +37,6 @@ void filecopy(FILE *ifp, FILE *ofp) {
 /*
 $ gcc chapter7/7.5/cat.c -o chapter7/7.5/result.out
 
-$ chapter7/7.5/result.out chpater7/7.5/hello.txt // the argument needs to be a subdirectory in the directory from which the program is run, e.g., absolute path starting from /mnt/c/... or hello.txt doesn't work
+$ chapter7/7.5/result.out chapter7/7.5/hello.txt // the argument needs to be a subdirectory in the directory from which the program is run, e.g., absolute path starting from /mnt/c/... or hello.txt doesn't work
 hello hello
 */
