@@ -49,14 +49,17 @@ FILE2 _iob2[OPEN_MAX];
 
 int _fillbuf1(FILE1 *fp);
 FILE1 *fopen1(char *name, char *mode);
+void fclose1(FILE1 *fp);
 
 int _fillbuf2(FILE2 *fp);
 FILE2 *fopen2(char *name, char *mode);
+void fclose2(FILE2 *fp);
 
 #define getc1(p) (--(p)->cnt >= 0 ? (unsigned char) *(p)->ptr++: _fillbuf1(p))
 #define getc2(p) (--(p)->cnt >= 0 ? (unsigned char) *(p)->ptr++: _fillbuf2(p))
 
 int main(){
+    // for (int i=0; i<N; i++) {
     FILE1 *fp1 = fopen1("chapter8/8.5/exercise_8-2/hello1.txt","r");
     if (fp1 != NULL) {	
         char c1;
@@ -67,7 +70,10 @@ int main(){
     else {
         printf("Failed to open file");
     }
+    // fclose1(fp1);
+    // }
     
+    // for (int i=0; i<N; i++) {
     FILE2 *fp2 = fopen2("chapter8/8.5/exercise_8-2/hello2.txt","r");
     if (fp2 != NULL) {	
         char c2;
@@ -78,6 +84,8 @@ int main(){
     else {
         printf("Failed to open file");
     }
+    // fclose2(fp2);
+    // }
 	
 	return 0;
 }
@@ -157,6 +165,11 @@ int _fillbuf1(FILE1 *fp) {
     return (unsigned char) *fp->ptr++;
 }
 
+// void fclose1(FILE1 *fp) {
+//     close(fp->fd);
+//     fp = NULL;
+// }
+
 /* fopen2: open file, return file ptr */
 FILE2 *fopen2(char *name, char *mode) {
     int fd;
@@ -232,3 +245,8 @@ int _fillbuf2(FILE2 *fp) {
     }
     return (unsigned char) *fp->ptr++;
 }
+
+// void fclose2(FILE2 *fp) {
+//     close(fp->fd);
+//     fp = NULL;
+// }
