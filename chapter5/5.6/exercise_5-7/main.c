@@ -5,6 +5,7 @@ Exercise 5-7. Rewrite readlines to store lines in an array supplied by main, rat
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "extern.h"
 #include "../../../helper_functions.h"
 
