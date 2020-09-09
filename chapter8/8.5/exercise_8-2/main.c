@@ -80,7 +80,7 @@ int fclose1(FILE1 *fp) {
         free(fp->base);
         fp->base = NULL;
     }
-    fp->flag = 0;
+    fp->flag = 0; /* without this step, will raise segmentation fault */
     int fdTemp = fp->fd;
     fp->fd = -1; /* file descriptor is positive */
     return close(fdTemp);
