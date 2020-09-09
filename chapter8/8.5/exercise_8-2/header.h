@@ -1,4 +1,3 @@
-#define N 1000
 #define PERMS 0666 /* default permission when creating files, RW for owner, group, others */
 #define OPEN_MAX 20
 
@@ -38,11 +37,11 @@ extern FILE2 _iob2[OPEN_MAX];
 
 int _fillbuf1(FILE1 *fp);
 FILE1 *fopen1(char *name, char *mode);
-void fclose1(FILE1 *fp);
+int fclose1(FILE1 *fp);
 
 int _fillbuf2(FILE2 *fp);
 FILE2 *fopen2(char *name, char *mode);
-void fclose2(FILE2 *fp);
+int fclose2(FILE2 *fp);
 
 #define getc1(p) (--(p)->cnt >= 0 ? (unsigned char) *(p)->ptr++: _fillbuf1(p))
 #define getc2(p) (--(p)->cnt >= 0 ? (unsigned char) *(p)->ptr++: _fillbuf2(p))

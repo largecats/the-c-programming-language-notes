@@ -20,8 +20,9 @@ enum _flags {
 };
 
 int _fillbuf1(FILE1 *fp);
+int _flushbuf1(int x, FILE1 *fp);
 FILE1 *fopen1(char *name, char *mode);
-void fclose1(FILE1 *fp);
+int fclose1(FILE1 *fp);
 
 #define getc1(p) (--(p)->cnt >= 0 ? (unsigned char) *(p)->ptr++: _fillbuf1(p))
 #define putc1(x, p) (--(p)->cnt >= 0? *(p)->ptr++ = (x): _flushbuf1((x), p))

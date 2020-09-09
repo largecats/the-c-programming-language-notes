@@ -15,7 +15,7 @@ equivalents. Perform experiments to determine the relative speeds of the two ver
 /* cat: concatenate files */
 int main(int argc, char *argv[]) {
     
-    clock_t start, end, start, end;
+    clock_t start, end;
     double cpu_time_used1, cpu_time_used2;
 
     start = clock();
