@@ -31,8 +31,20 @@ int _flushbuf1(int c, FILE1 *fp) {
     if ((fp->flag & (_WRITE|_EOF|_ERR)) != _WRITE) {
         return EOF;
     }
+    if (fp->base == NULL && ((fp->flag & _UNBUF) == 0)) {
+        /* no buffer yet */
+        if ((fp->base = malloc(BUFSIZ)) == NULL) {
+            /* cannot allocate buffer */
+            fp->flag |= _UNBUF; /* use unbuffered write, i.e., write one character at a time */
+        }
+        else {
+            fp->ptr = fp->base;
+            fp->cnt = BUFSIZ - 1;
+        }
+    }
     if (fp->flag & _UNBUF) {
-        /* file is not buffered, i.e., write one character at a time */
+        // printf("not buffered\n");
+        /* file is not buffered */
         fp->ptr = fp->base = NULL;
         fp->cnt = 0;
         if (c == EOF) {
@@ -42,11 +54,13 @@ int _flushbuf1(int c, FILE1 *fp) {
         bufsize = 1;
     }
     else {
+        // printf("buffered\n");
         /* file is buffered */
         if (c != EOF) {
             *(fp)->ptr++ = c;
         }
         bufsize = (int) (fp->ptr - fp->base);
+        // printf("writing\n");
         n = write(fp->fd, fp->base, bufsize);
         fp->ptr = fp->base; /* reset pointer */
         fp->cnt = BUFSIZ - 1; /* reset number of available slots in buffer? */
@@ -56,6 +70,7 @@ int _flushbuf1(int c, FILE1 *fp) {
     }
     else {
         /* "the return value is the number off bytes written; an error has occurred if this isn't equal to the number requested */
+        fp->flag |= _ERR;
         return EOF; /* return EOF if error */
     }
 }
@@ -78,7 +93,7 @@ streams.
 https://man7.org/linux/man-pages/man3/fflush.3.html
 */
 int fflush1(FILE1 *fp) {
-    if (fp = NULL) {
+    if (fp == NULL) {
         /* stream argument (recall that all streams are FILE objects) is NULL, flush all open output streams */
         FILE1 *fp1;
         for (fp1 = _iob1; fp1 < _iob1 + OPEN_MAX; fp1++) {
