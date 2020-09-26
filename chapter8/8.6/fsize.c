@@ -14,14 +14,13 @@ void dirwalk(char *, void (*fcn) (char *));
 /* fsize: print the name of the file "name" */
 void fsize(char *name) {
     struct stat stbuf;
-    print_string(name);
 
     if (stat(name, &stbuf) == -1) {
         fprintf(stderr, "fsize: can't access %s\n", name);
         return;
     }
     if ((stbuf.st_mode & __S_IFMT) == __S_IFDIR) { /* if name is directory, walk it */
-        printf("name %s is a directory\n", name);
+        // printf("name %s is a directory\n", name);
         dirwalk(name, fsize);
     }
     printf("%8ld %s\n", stbuf.st_size, name);
@@ -37,6 +36,7 @@ void dirwalk(char *dir, void (*fcn)(char *)) {
         fprintf(stderr, "dirwalk: can't open %s\n", dir);
         return;
     }
+    // print_variable(dfd->fd); /* 3 */
     while ((dp = readdir(dfd)) != NULL) {
         if (strcmp(dp->name, ".") == 0 || strcmp(dp->name, "..") == 0) {
             continue; /* skip self and parent directory */

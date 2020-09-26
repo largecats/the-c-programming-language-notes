@@ -28,6 +28,9 @@ int main(int argc, char **argv) {
 /*
 $ gcc chapter8/8.6/main.c chapter8/8.6/dir_ops.c chapter8/8.6/fsize.c helper_functions.c -o chapter8/8.6/result.out
 
-$ chapter8/8.6/result.out
+$ chapter8/8.6/result.out # can't loop through directory, readdir() returns -1
+4096 /xxx/
 
+$ chapter8/8.6/result.out "/xxx/xxx.pdf"
+592213 /xxx/xxx.pdf
 */

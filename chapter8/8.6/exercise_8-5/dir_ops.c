@@ -39,9 +39,9 @@ Dirent *readdir(DIR *dp) {
     struct direct dirbuf; /* local directory structure */
     static Dirent d; /* return: portable structure */
 
-    print_variable(read(dp->fd, (char *) &dirbuf, sizeof(dirbuf)));
+    // print_variable(read(dp->fd, (char *) &dirbuf, sizeof(dirbuf))); /* -1 */
     while (read(dp->fd, (char *) &dirbuf, sizeof(dirbuf)) == sizeof(dirbuf)) {
-        printf("reading directory\n");
+        // printf("reading directory\n");
         if (dirbuf.d_ino == 0) { /* slot not in use */
             continue;
         }

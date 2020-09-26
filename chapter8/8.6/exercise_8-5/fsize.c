@@ -23,7 +23,7 @@ void fsize(char *name) {
         return;
     }
     if ((stbuf.st_mode & __S_IFMT) == __S_IFDIR) { /* if name is directory, walk it */
-        printf("name %s is a directory\n", name);
+        // printf("name %s is a directory\n", name);
         dirwalk(name, fsize);
     }
     char accessTime[100];
