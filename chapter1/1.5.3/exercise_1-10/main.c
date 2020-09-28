@@ -34,4 +34,6 @@ hello   Neo
 hello\tNeo
 comment\n
 comment\\n
+hello world^V^H # https://stackoverflow.com/questions/26899470/how-can-i-change-backspace-to-b
+hello world\b
 */
