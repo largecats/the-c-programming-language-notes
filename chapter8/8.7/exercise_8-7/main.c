@@ -38,6 +38,6 @@ int main() {
 $ gcc chapter8/8.7/exercise_8-7/main.c chapter8/8.7/exercise_8-7/malloc.c helper_functions.c -o chapter8/8.7/exercise_8-7/result.out
 
 $ chapter8/8.7/exercise_8-7/result.out
-malloc1: exceeded maximum number of bytes 10000
+malloc1: invalid nbytes 1000000
 main: no space available
 */

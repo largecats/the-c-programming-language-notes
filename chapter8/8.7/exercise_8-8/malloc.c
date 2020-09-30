@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "../header.h"
+#include "../../../helper_functions.h"
 
 #define MAX_N_BYTES 100000
 
@@ -55,6 +56,7 @@ static Header *morecore(unsigned nu) {
     }
     up = (Header *) cp; /* create header for the storage returned by sbrk() */
     up->s.size = nu;
+    // print_variable(up->s.size);
     free((void *)(up+1));
     return freep;
 }
@@ -64,6 +66,7 @@ void free(void *ap) {
     Header *bp, *p;
 
     bp = (Header *)ap - 1; /* point to block header */
+    // print_variable(bp->s.size);
 
     if (bp->s.size < sizeof(Header)) {
         fprintf(stderr, "free: invalid size %u", bp->s.size);
