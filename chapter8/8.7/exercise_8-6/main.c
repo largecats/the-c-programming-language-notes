@@ -16,7 +16,7 @@ int main() {
 
     p = calloc1(N, sizeof *p);
     if (p == NULL) {
-        printf("calloc1: no space available");
+        printf("main: no space available\n");
 
     } else {
         for(i=0; i <= N; i++) {
