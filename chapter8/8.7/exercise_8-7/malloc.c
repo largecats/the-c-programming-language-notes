@@ -2,10 +2,11 @@
 #include "../header.h"
 
 #define MAX_N_BYTES 10000
+
 /* malloc: general-purpose storage allocator */
 void *malloc1(unsigned nbytes) {
-    if (nbytes > MAX_N_BYTES) {
-        fprintf(stderr,"malloc1: exceeded maximum number of bytes %d\n", MAX_N_BYTES);
+    if (nbytes <= 0 || nbytes > MAX_N_BYTES) {
+        fprintf(stderr,"malloc1: exceeded maximum number of bytes %u\n", MAX_N_BYTES);
         return NULL;
     }
     Header *p, *prevp;
@@ -64,8 +65,8 @@ void free(void *ap) {
 
     bp = (Header *)ap - 1; /* point to block header */
 
-    if (bp->s.size < 0) {
-        fprintf(stderr, "free: invalid size %d", bp->s.size);
+    if (bp->s.size <= 0) {
+        fprintf(stderr, "free: invalid size %u", bp->s.size);
     }
 
     for (p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr) {
